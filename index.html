@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>10 Tail Tangle - Pre-Order Now!</title>
-    <!-- REMINDER: Host assets locally! Replace this Discord URL -->
-    <link rel="icon" type="image/png" href="https://media.discordapp.net/attachments/1003164365819752480/1359806804170772543/Image_Editor-min.png?ex=67f8d246&is=67f780c6&hm=94700e6e2cb44638b231abea3d5b77e0fd3a3c9e3e8aa1160694bf07de637b98&=&format=webp&quality=lossless&width=964&height=964">
+    <!-- Updated Favicon Path -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
 
 
     <style>
@@ -72,7 +72,8 @@
         .card-container:hover .card { transform: rotateY(180deg); }
         .card-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 8px; display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: var(--color-card-front-bg); }
         .card-front { color: var(--color-text-dark); background-size: cover; background-position: center; background-repeat: no-repeat; }
-        .card-back { background-color: var(--color-card-back-bg); transform: rotateY(180deg); background-image: url('https://media.discordapp.net/attachments/1003164365819752480/1359782414909444096/card_back_web_version.png?ex=67f8bb8f&is=67f76a0f&hm=e6187d14cb2ece08af3a879f39bc5a95c092b851be64a15affaeb3fa935e6685&=&format=webp&quality=lossless&width=694&height=1052'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        /* Updated Card Back Path */
+        .card-back { background-color: var(--color-card-back-bg); transform: rotateY(180deg); background-image: url('images/cardback.png'); background-size: cover; background-position: center; background-repeat: no-repeat; }
         .card-back span { display: none; }
         .scroll-prompt { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); width: auto; text-align: center; color: var(--color-accent); font-size: 1.4rem; font-weight: 500; opacity: 1; z-index: 60; cursor: default; transition: opacity 0.5s ease-out; will-change: opacity; text-shadow: 0 0 10px rgba(0, 0, 0, 1); }
         .scroll-prompt::after { content: '▼'; display: block; margin-top: 8px; font-size: 1.6rem; animation: bounce 2s infinite ease-in-out; line-height: 1; }
@@ -113,7 +114,8 @@
         .promo-card-container:hover .promo-card { transform: rotateY(180deg); }
         .promo-card-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 6px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.4); background-color: var(--color-card-back-bg); display: flex; justify-content: center; align-items: center; }
         .promo-card-front {}
-        .promo-card-back { transform: rotateY(180deg); background-image: url('https://media.discordapp.net/attachments/1003164365819752480/1359782414909444096/card_back_web_version.png?ex=67f8bb8f&is=67f76a0f&hm=e6187d14cb2ece08af3a879f39bc5a95c092b851be64a15affaeb3fa935e6685&=&format=webp&quality=lossless&width=694&height=1052'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        /* Updated Promo Card Back Path */
+        .promo-card-back { transform: rotateY(180deg); background-image: url('images/cardback.png'); background-size: cover; background-position: center; background-repeat: no-repeat; }
         .promo-card-image { display: block; width: 100%; height: 100%; object-fit: cover; }
          .promo-back-logo { display: none; }
         .promo-text-image {
@@ -177,7 +179,7 @@
 
         /* --- MOBILE OPTIMIZATIONS & RESPONSIVENESS --- */
         @media (max-width: 768px) {
-            /* Disable/Reduce BG Animations */
+             /* Disable/Reduce BG Animations */
             .purchase-section::before,
             .purchase-section::after,
             .guest-artists-section::before,
@@ -185,7 +187,7 @@
             .floating-card-container { animation: none !important; filter: none !important; opacity: 0.08 !important; }
             /* #purchase-bg-cards, #guest-artists-bg-cards { display: none; } */
 
-            /* Existing Responsive Styles */
+             /* Existing Responsive Styles */
             .purchase-display-area { flex-direction: column; gap: 40px; }
             .display-left { width: 80%; max-width: 400px; margin-bottom: 20px; gap: 15px; }
             .box-art-container { margin-bottom: 40px; max-width: 100%;}
@@ -254,8 +256,8 @@
         <!-- Hero Section -->
         <div class="hero-section" id="hero">
             <div class="game-logo" id="hero-logo">
-                <!-- REMINDER: Host assets locally! -->
-                <img src="https://media.discordapp.net/attachments/1003164365819752480/1359761908948930622/logo_sticker.png?ex=67f8a876&is=67f756f6&hm=b4b30a615de7f272312634c57c63e3102b4aa593e1c01411c4d36c84d10dbb0a&=&format=webp&quality=lossless&width=1523&height=965" alt="10 Tail Tangle Game Logo">
+                <!-- Updated Logo Path -->
+                <img src="images/titlelogo.png" alt="10 Tail Tangle Game Logo">
             </div>
             <div class="scroll-wrapper" id="scroll-wrapper">
                 <div class="horizontal-row-container top"> <div class="horizontal-card-track" id="h-track-top"></div> </div>
@@ -272,16 +274,17 @@
                 <div class="display-left">
                      <div class="box-art-container">
                          <div class="box-art-interactive-container">
-                             <!-- REMINDER: Host assets locally! -->
-                             <img src="https://media.discordapp.net/attachments/1003164365819752480/1359770283254485063/Adobe_Express_-_file.png?ex=67f8b042&is=67f75ec2&hm=b2ff2a39d305c364894c5e4a3927d4fc2a53c981bc4288a6ee776dffee02e319&=&format=webp&quality=lossless&width=798&height=1052" alt="10 Tail Tangle Game Box" class="box-art-image">
+                             <!-- Updated Box Art Path -->
+                             <img src="images/boxart.png" alt="10 Tail Tangle Game Box" class="box-art-image">
                          </div>
-                         <!-- REMINDER: Host assets locally! -->
+                         <!-- !!! IMAGE NOT FOUND in provided list - Kept Discord Link !!! -->
+                         <!-- Replace with "images/your-promo-text-filename.png" when available -->
                         <img src="https://media.discordapp.net/attachments/1003164365819752480/1359784664906338405/preorder_bonus.png?ex=67f8bda7&is=67f76c27&hm=ba95e07c0ae6763cb0077c195593482ccdd43a067adc10506ffc6d52fdfd438f&=&format=webp&quality=lossless" alt="Preorder Bonus!" class="promo-text-image">
                          <div class="promo-card-container">
                               <div class="promo-card">
                                   <div class="promo-card-face promo-card-front">
-                                      <!-- REMINDER: Host assets locally! -->
-                                      <img src="https://media.discordapp.net/attachments/1003164365819752480/1359770605762777170/Miro_Go_Fetch_Promo_Card_1.png?ex=67f8b08f&is=67f75f0f&hm=eb8471b0a952931fda6692a8bbb15e112519f8145ca3d0a54e23e409a2289257&=&format=webp&quality=lossless&width=694&height=1052" alt="Pre-order Promo Card - Miro Go Fetch" class="promo-card-image">
+                                      <!-- Updated Promo Card Path -->
+                                      <img src="images/miropromo.png" alt="Pre-order Promo Card - Miro Go Fetch" class="promo-card-image">
                                   </div>
                                   <div class="promo-card-face promo-card-back">
                                        <!-- Background image set in CSS -->
@@ -292,8 +295,8 @@
                  </div>
                  <div class="display-right purchase-content">
                       <div class="game-logo game-logo--purchase">
-                         <!-- REMINDER: Host assets locally! -->
-                         <img src="https://media.discordapp.net/attachments/1003164365819752480/1359761908948930622/logo_sticker.png?ex=67f8a876&is=67f756f6&hm=b4b30a615de7f272312634c57c63e3102b4aa593e1c01411c4d36c84d10dbb0a&=&format=webp&quality=lossless&width=1523&height=965" alt="10 Tail Tangle Game Logo">
+                         <!-- Updated Logo Path -->
+                         <img src="images/titlelogo.png" alt="10 Tail Tangle Game Logo">
                       </div>
                       <p>Compete to be the first to get 10 Tails in a chain! With the help of your cards, create fun tail combos to get an advantage over others!</p>
                       <a href="https://mofumirostore.square.site/product/ten-tail-tangle-preorder-/43" target="_blank" rel="noopener noreferrer" class="button-link">
@@ -309,8 +312,8 @@
         <section class="guest-artists-section" id="guest-artists">
             <div class="guest-artists-bg-floater" id="guest-artists-bg-cards"></div>
             <div class="guest-artists-container">
-                 <!-- REMINDER: Host assets locally! -->
-                <img src="https://media.discordapp.net/attachments/1003164365819752480/1359837943803674694/artist_cards-min.png?ex=67f8ef46&is=67f79dc6&hm=1a544d42efe15169e0c0df719b558776a27f84230d493340b6a1e3872f186b3d&=&format=webp&quality=lossless&width=1460&height=309"
+                 <!-- Updated Artist Prompt Path -->
+                <img src="images/artistcards.png"
                      alt="Artist Cards - Click to View"
                      class="guest-artists-prompt-img"
                      loading="lazy">
@@ -359,14 +362,53 @@
         const zoomedCloseButton = document.querySelector('.zoomed-close-button');
         const artistScrollPrompt = document.getElementById('artist-scroll-prompt');
 
-        // --- Card Data (Main Game) ---
+        // --- Card Data (Main Game) --- UPDATED PATHS ---
         const numUniqueDesigns = 20;
-        // REMINDER: Host assets locally!
-        const cardsData = [ { id: 1, title: "Dumpster Diving", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763917223759962/Dumpster_Diving.png?ex=67f8aa55&is=67f758d5&hm=6b28837d7bceaeac8d6701d8a55770fd326f0a4d4b344302cc15dc7f08c58b86&=&format=webp&quality=lossless&width=625&height=948" }, { id: 2, title: "Reverse", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763917684998204/Reverse.png?ex=67f8aa55&is=67f758d5&hm=48d713a742d3904a917ba310921c8cfd3e6ca9f5c282fa9b3ad3fefbb086dda4&=&format=webp&quality=lossless&width=625&height=948" }, { id: 3, title: "Sneaky Peak", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763918116880485/Sneaky_Peak.png?ex=67f8aa55&is=67f758d5&hm=75ec3598943eef735f237110d3c3615342d2ba4a4cc358c5786ba178300aa323&=&format=webp&quality=lossless&width=625&height=948" }, { id: 4, title: "Tail Serum", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763918641434776/Tail_Serum.png?ex=67f8aa55&is=67f758d5&hm=d2cdc63b563e53e42e995b980334860bfb809e8d8a53a016144ae74d3931e38f&=&format=webp&quality=lossless&width=625&height=948" }, { id: 5, title: "Desperate Times", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763919102541935/Desperate_Times.png?ex=67f8aa55&is=67f758d5&hm=ac556ef51cdb68f81f78f366a28d017f4bc2413026c5c893fadbd705ba214f5f&=&format=webp&quality=lossless&width=625&height=948" }, { id: 6, title: "Draw Two", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763919643738192/Draw_Two.png?ex=67f8aa55&is=67f758d5&hm=8bdad43e83aa6e6a9843ff0be35c0661c3c3285f264a75e4e3b09e23e5283349&=&format=webp&quality=lossless&width=625&height=948" }, { id: 7, title: "Goober", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763971447717969/Goober.png?ex=67f8aa61&is=67f758e1&hm=8f4d4eed9a04cd414f164139f74a43d7b8f07803b9d5e3fd030cac739faf2e7e&=&format=webp&quality=lossless&width=625&height=948" }, { id: 8, title: "Tail Robbery", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763972018147348/Tail_Robbery.png?ex=67f8aa62&is=67f758e2&hm=c1c662dd291791c758f13ed29e498605c9d4e5cb83044e30b3884b5d3a95f405&=&format=webp&quality=lossless&width=625&height=948" }, { id: 9, title: "Tail Snip", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763972538237108/Tail_Snip.png?ex=67f8aa62&is=67f758e2&hm=ec18fcda03ee5fed2e6f381227bbbf5ddad43baf95529fe4fef847b250d85ea9&=&format=webp&quality=lossless&width=625&height=948" }, { id: 10, title: "Tail Swap", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763973141954752/Tail_Swap.png?ex=67f8aa62&is=67f758e2&hm=174bfbbfcbba423fdc0115e23214ed92c26f392d168cf4caebff4623666ad697&=&format=webp&quality=lossless&width=625&height=948" }, { id: 11, title: "Tail Tangle", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763973699801200/Tail_Tangle.png?ex=67f8aa62&is=67f758e2&hm=86408d494a6f546e2755064f1989f4cabe3e66b039dc89f1ce0a00adb3ba9a4e&=&format=webp&quality=lossless&width=625&height=948" }, { id: 12, title: "Tail Theft", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763974232735744/Tail_Theft.png?ex=67f8aa62&is=67f758e2&hm=fca4450c5269d2de5288a576f24ad3ede653460acdaca4fbe9f2ce4fbd136638&=&format=webp&quality=lossless&width=625&height=948" }, { id: 13, title: "Mirror", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763931169554643/Mirror.png?ex=67f8aa58&is=67f758d8&hm=9818ca038e6f92440b20f7a1233ba251074f065183ca3c54f4329708484c67aa&=&format=webp&quality=lossless&width=625&height=948" }, { id: 14, title: "Nope", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763931673006232/nope.png?ex=67f8aa58&is=67f758d8&hm=e3d7d67772352521f4c5887da07cef87c77a88c4afa2c34dafa9686b028ba9b0&=&format=webp&quality=lossless&width=625&height=948" }, { id: 15, title: "Cat Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763986077454458/cat_tail_new.png?ex=67f8aa65&is=67f758e5&hm=819f66f83ce2def9c7943b1c6c73790f134cb6b74f7c65f7533191e7592724ee&=&format=webp&quality=lossless&width=625&height=948" }, { id: 16, title: "Dragon Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763986660331620/dragon_tail_new.png?ex=67f8aa65&is=67f758e5&hm=45e31c95207f2e319157ded06848936da1d37c703d88a9f3c83640d35e7a8ddc&=&format=webp&quality=lossless&width=625&height=948" }, { id: 17, title: "Fox Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763987306385498/Fox_Tail_new.png?ex=67f8aa65&is=67f758e5&hm=4e68ccb70c53ba2c8e8df87f1537776e748bf7ebb2598b157586817a449411b9&=&format=webp&quality=lossless&width=625&height=948" }, { id: 18, title: "Racoon Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763987834736773/Racoon_Tail_new.png?ex=67f8aa65&is=67f758e5&hm=cdea73d8c5c5044a209e8613f6c309cd68d2fbd33072486b70793078d8cae1e3&=&format=webp&quality=lossless&width=625&height=948" }, { id: 19, title: "Rainbow Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763988719865867/rainbow_tail_new.png?ex=67f8aa66&is=67f758e6&hm=29d21f4d6580d70ecd15298700d747b219ebff13ac707fcf7801a44fa42cafda&=&format=webp&quality=lossless&width=625&height=948" }, { id: 20, title: "Wolf Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763989223051274/wolf_tail_new.png?ex=67f8aa66&is=67f758e6&hm=10f80da6e953e28a24942387a34ae4378c7a02e74f3ad544ac792bac426b652e&=&format=webp&quality=lossless&width=625&height=948" } ];
+        const cardsData = [
+            { id: 1, title: "Dumpster Diving", imageUrl: "images/dumpsterdiving.png" },
+            { id: 2, title: "Reverse", imageUrl: "images/reverse.png" },
+            { id: 3, title: "Sneaky Peak", imageUrl: "images/sneakypeak.png" },
+            { id: 4, title: "Tail Serum", imageUrl: "images/tailserum.png" },
+            { id: 5, title: "Desperate Times", imageUrl: "images/desperatetimes.png" },
+            { id: 6, title: "Draw Two", imageUrl: "images/drawtwo.png" },
+            { id: 7, title: "Goober", imageUrl: "images/goober.png" },
+            { id: 8, title: "Tail Robbery", imageUrl: "images/tailrob.png" }, // Corrected filename
+            { id: 9, title: "Tail Snip", imageUrl: "images/tailsnip.png" },
+            { id: 10, title: "Tail Swap", imageUrl: "images/tailswap.png" },
+            { id: 11, title: "Tail Tangle", imageUrl: "images/tailtangle.png" },
+            { id: 12, title: "Tail Theft", imageUrl: "images/tailtheft.png" },
+            { id: 13, title: "Mirror", imageUrl: "images/mirror.png" },
+            { id: 14, title: "Nope", imageUrl: "images/nope.png" },
+            { id: 15, title: "Cat Tail", imageUrl: "images/cattail.png" },
+            { id: 16, title: "Dragon Tail", imageUrl: "images/dragontail.png" },
+            { id: 17, title: "Fox Tail", imageUrl: "images/foxtail.png" },
+            { id: 18, title: "Racoon Tail", imageUrl: "images/raccoontail.png" },
+            { id: 19, title: "Rainbow Tail", imageUrl: "images/rainbowtail.png" },
+            { id: 20, title: "Wolf Tail", imageUrl: "images/wolftail.png" }
+        ];
 
-        // --- Guest Artist Data --- UPDATED WITH URLS ---
-        // REMINDER: Host assets locally!
-        const guestArtistData = [ { id: "zylith", name: "Zylith", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812829753905173/4_Artist_promo_Zylith_4.png?ex=67f8d7e2&is=67f78662&hm=b7ac68846e05b9024a50c960d2cfa9cde65bc51c6f8dac0946bff2ca70ad3ca3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://nogitsune-shrine.carrd.co" }, { id: "casper", name: "Casper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830299422871/1_Artist_promo_Casper_1.png?ex=67f8d7e2&is=67f78662&hm=9ba97b6f76042b11067cceeff16b5504d8f39a2851c396fb143c114f1b0566b0&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/casperclawell" }, { id: "bakaroni1", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830748217404/2_Artist_promo_Bakaroni_2_1.png?ex=67f8d7e2&is=67f78662&hm=489c85cf5fe95a3cd4214246cfb85ed230e439dba974e5ad00b5ec0191e303e3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" }, { id: "bakaroni2", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831473828001/2_Artist_promo_Bakaroni_2_2.png?ex=67f8d7e3&is=67f78663&hm=00803eaa5f8df3a294a8b89d3eee5898d6a8e7b9c658acce07662113b1df1255&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" }, { id: "turtike", name: "Turtike", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831947788391/3_Artist_promo_Turtike.png?ex=67f8d7e3&is=67f78663&hm=d1b5e5e7c2089c037baf39f05c250107f71849d099dd6e856a9e1484f469029a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/turtike/" }, { id: "northboyo", name: "Northboyo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812864797442098/10_Artist_promo_North_10.png?ex=67f8d7eb&is=67f7866b&hm=936a4a2289c1b8c3bf5e125a5cce5ab2c91620fbb2aea4508309757540254d47&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/northboyo/" }, { id: "racc1", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812865481117858/5_Artist_promo_Racc_5_1.png?ex=67f8d7eb&is=67f7866b&hm=d7db232e0f00990f3b4e48c55992c3efdc469b2a68c956fe589a16a7fb67ecfa&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" }, { id: "racc2", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866160459786/5_Artist_promo_Racc_5_2.png?ex=67f8d7eb&is=67f7866b&hm=72e36c367d08b5e2a41ca660bd4f4ae318615f22105a32887e2d45be3569751d&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" }, { id: "queenmocha", name: "Queen Mocha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866756055040/6_Artist_promo_Mummy_6.png?ex=67f8d7eb&is=67f7866b&hm=0c6ebbe07a0b28a4dd482d5ed61edb77fb6c304897a3f279c42a739cf9785b69&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/QueenMochaBun" }, { id: "taffy", name: "Taffy", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812867406430309/7_Artist_promo_Taffy_7.png?ex=67f8d7eb&is=67f7866b&hm=ec92b15803f63a0cf9e5b51115dc5c3e098fcd7b85d2a3a0cbeb4c18d71a8618&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://t.me/taffysart" }, { id: "spoopicus", name: "Spoopicus", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868077256765/8_Artist_promo_Max_8.png?ex=67f8d7eb&is=67f7866b&hm=c47c62941768f2edc069f0af8dc934cc3bc4552240f2f5b8faf128639da97e57&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/spoopicus/" }, { id: "lemoncurdll", name: "Lemoncurdll", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868572315831/9_Artist_promo_Lemon_9.png?ex=67f8d7eb&is=67f7866b&hm=16a469bee29b8c1cf915c1b3a98eee8df41045ca07f537c50d303ed75a318e6a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/llemoncurdll" }, { id: "rainard", name: "Rainard", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812898964373584/11_Artist_promo_Foxo_11.png?ex=67f8d7f3&is=67f78673&hm=2b6a36c997e42780735fb4b4e1021bb5535a9a28ffe325164ec89da656c0a339&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "#" }, { id: "tonfoxsu", name: "Tonfoxsu", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812899513700452/12_Artist_promo_tofu_12.png?ex=67f8d7f3&is=67f78673&hm=ca6a5a1e63366f57f3a5753124fa669625b143295d9497ff9b1d3f3a01a59b76&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://tonfoxsu.carrd.co" }, { id: "cattoforge", name: "The Catto Forge", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900054634587/13_Artist_promo_maine_13.png?ex=67f8d7f3&is=67f78673&hm=b34f03117b63bbc939272c1d87746eefd53ba1ef97bb7147693b6afff16fbcad&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://thecattoforge.carrd.co" }, { id: "roo", name: "Roo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900738564168/14_Artist_promo_Roo_14.png?ex=67f8d7f3&is=67f78673&hm=f160400a9e88d4254dd7fbe53037bf92ba99bbb0949aa21e02a774b6acea4e96&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://featheri-roo.carrd.co/#" }, { id: "oomanagarcha", name: "Oomanagarcha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901321310372/16_Artist_promo_Ooma_16.png?ex=67f8d7f3&is=67f78673&hm=d74fda53c5422e93a200762010d9d285d770452b465301822556a2bda3dea1c2&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/oomanagarcha" }, { id: "astralembers", name: "Astral Embers", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901925552199/17_Artist_promo_Ember_17.png?ex=67f8d7f3&is=67f78673&hm=06b7702a5d29ab69f93e969459562000ed4a13a1f4340f794a789babe93ac6bd&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/_.astral.embers._/" }, { id: "jasper", name: "Jasper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812902395318341/19_Artist_Promo_Jasper_19.png?ex=67f8d7f4&is=67f78674&hm=bc75c9a48c10fe20f0213918572c4bcf9633bef66874ea0038e0d5ee96a59d18&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://bsky.app/profile/jaspersartvault.bsky.social" } ];
+        // --- Guest Artist Data --- UPDATED PATHS & URLS ---
+        const guestArtistData = [
+            { id: "zylith", name: "Zylith", imageUrl: "images/zylithpromo.png", platformUrl: "https://nogitsune-shrine.carrd.co" },
+            { id: "casper", name: "Casper", imageUrl: "images/casperpromo.png", platformUrl: "https://x.com/casperclawell" },
+            { id: "bakaroni1", name: "Bakaroni", imageUrl: "images/bakaroni1promo.png", platformUrl: "https://www.instagram.com/bakaroni.san/" },
+            { id: "bakaroni2", name: "Bakaroni", imageUrl: "images/bakaroni2promo.png", platformUrl: "https://www.instagram.com/bakaroni.san/" },
+            { id: "turtike", name: "Turtike", imageUrl: "images/turtikepromo.png", platformUrl: "https://x.com/turtike/" },
+            { id: "northboyo", name: "Northboyo", imageUrl: "images/northpromo.png", platformUrl: "https://www.instagram.com/northboyo/" },
+            { id: "racc1", name: "Reckless Racoon Studios", imageUrl: "images/racc1promo.png", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
+            { id: "racc2", name: "Reckless Racoon Studios", imageUrl: "images/racc2promo.png", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
+            { id: "queenmocha", name: "Queen Mocha", imageUrl: "images/mummypromo.png", platformUrl: "https://linktr.ee/QueenMochaBun" }, // Corrected filename
+            { id: "taffy", name: "Taffy", imageUrl: "images/taffypromo.png", platformUrl: "https://t.me/taffysart" },
+            { id: "spoopicus", name: "Spoopicus", imageUrl: "images/maxpromo.png", platformUrl: "https://www.instagram.com/spoopicus/" }, // Corrected filename
+            { id: "lemoncurdll", name: "Lemoncurdll", imageUrl: "images/lemonpromo.png", platformUrl: "https://www.instagram.com/llemoncurdll" },
+            { id: "rainard", name: "Rainard", imageUrl: "images/rainardpromo.png", platformUrl: "#" }, // Placeholder kept
+            { id: "tonfoxsu", name: "Tonfoxsu", imageUrl: "images/tofupromo.png", platformUrl: "https://tonfoxsu.carrd.co" },
+            { id: "cattoforge", name: "The Catto Forge", imageUrl: "images/cattoforgepromo.png", platformUrl: "https://thecattoforge.carrd.co" },
+            { id: "roo", name: "Roo", imageUrl: "images/roopromo.png", platformUrl: "https://featheri-roo.carrd.co/#" },
+            { id: "oomanagarcha", name: "Oomanagarcha", imageUrl: "images/oomapromo.png", platformUrl: "https://linktr.ee/oomanagarcha" },
+            { id: "astralembers", name: "Astral Embers", imageUrl: "images/emberpromo.png", platformUrl: "https://www.instagram.com/_.astral.embers._/" },
+            { id: "jasper", name: "Jasper", imageUrl: "images/jasperpromo.png", platformUrl: "https://bsky.app/profile/jaspersartvault.bsky.social" }
+        ];
 
         // --- Card Generation Functions ---
         function shuffleArray(array) { for (let i=array.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [array[i], array[j]]=[array[j], array[i]];} return array;}
