@@ -20,6 +20,7 @@
             --float-speed: 5s;
             --zoomed-overlay-bg: rgba(10, 10, 10, 0.9);
             --zoomed-transition-speed: 0.35s;
+            --scroll-throttle-delay: 100; /* ms delay for scroll event throttling */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -65,7 +66,7 @@
         @keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-10px);} 60% {transform: translateY(-5px);} }
 
         /* --- Purchase Section --- */
-        .purchase-section { padding: 80px 20px 120px 20px; /* Increased bottom padding */ min-height: 100vh; position: relative; /* Needed for absolute positioning */ z-index: 1; display: flex; align-items: center; justify-content: center; overflow: visible; /* Allow prompt to peek out slightly if needed */ background-color: var(--color-bg-purchase); }
+        .purchase-section { padding: 80px 20px 120px 20px; min-height: 100vh; position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; overflow: visible; background-color: var(--color-bg-purchase); }
         .purchase-section::before { content: ''; position: absolute; inset: -50%; z-index: -2; background: linear-gradient( 135deg, rgba(50, 50, 50, 0.3) 10%, rgba(40, 40, 40, 0.2) 30%, rgba(30, 30, 30, 0.3) 50%, rgba(40, 40, 40, 0.2) 70%, rgba(50, 50, 50, 0.3) 90% ); background-size: 400% 400%; animation: gradientBG 30s ease infinite; filter: blur(10px); }
         @keyframes gradientBG { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
         .purchase-section::after { content: ''; position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; background-image: radial-gradient(circle at 20% 30%, hsla(0, 0%, 100%, 0.05) 0px, transparent 80px), radial-gradient(circle at 80% 70%, hsla(0, 0%, 100%, 0.04) 0px, transparent 100px), radial-gradient(circle at 50% 90%, hsla(0, 0%, 100%, 0.03) 0px, transparent 60px), radial-gradient(circle at 10% 80%, hsla(0, 0%, 100%, 0.04) 0px, transparent 90px), radial-gradient(circle at 90% 10%, hsla(0, 0%, 100%, 0.05) 0px, transparent 70px); background-size: 100% 100%; background-position: center center; opacity: 0.8; animation: slowFloat 60s linear infinite alternate; will-change: transform; }
@@ -118,168 +119,64 @@
         .buy-button:hover { background-image: linear-gradient(45deg, #ffffff 0%, var(--color-accent) 100%); transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); }
         .buy-button:active { transform: translateY(-1px) scale(0.98); box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
 
-        /* NEW: Artist Scroll Prompt (inside Purchase Section) */
+        /* Artist Scroll Prompt (inside Purchase Section) */
         .artist-scroll-prompt {
-            position: absolute;
-            bottom: 30px; /* Adjust position from bottom */
-            left: 50%;
-            transform: translateX(-50%);
-            width: auto;
-            text-align: center;
-            color: var(--color-text-medium); /* Subtler color */
-            font-size: 1.1rem; /* Smaller text */
-            font-weight: 500;
-            opacity: 1; /* Start visible */
-            z-index: 5; /* Above purchase content */
-            cursor: default;
-            transition: opacity 0.5s ease-out;
-            will-change: opacity;
-            text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
-            pointer-events: none; /* Don't block clicks */
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: auto; text-align: center; color: var(--color-text-medium);
+            font-size: 1.1rem; font-weight: 500; opacity: 1; z-index: 5; cursor: default;
+            transition: opacity 0.5s ease-out; will-change: opacity;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.8); pointer-events: none;
         }
         .artist-scroll-prompt::after {
-            content: '▼';
-            display: block;
-            margin-top: 4px; /* Less margin */
-            font-size: 1.3rem; /* Smaller arrow */
-            animation: bounce 2s infinite ease-in-out;
-            line-height: 1;
-            animation-delay: -0.5s; /* Offset animation slightly */
+            content: '▼'; display: block; margin-top: 4px; font-size: 1.3rem;
+            animation: bounce 2s infinite ease-in-out; line-height: 1; animation-delay: -0.5s;
         }
-        .artist-scroll-prompt.hidden {
-            opacity: 0;
-            /* No pointer-events change needed as base is none */
-        }
-
+        .artist-scroll-prompt.hidden { opacity: 0; }
 
         /* --- Guest Artists Section --- */
-        .guest-artists-section {
-            padding: 80px 20px; background-color: var(--color-bg-guest);
-            position: relative; z-index: 1; overflow: hidden; min-height: 100vh;
-        }
-        .guest-artists-bg-floater {
-            position: absolute; inset: 0; z-index: -1;
-            pointer-events: none; perspective: 1500px; overflow: hidden;
-        }
-        .guest-artists-section::before {
-            content: ''; position: absolute; inset: 0;
-            background-image: repeating-linear-gradient( 135deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 10px );
-            background-size: 10px 10px; opacity: 0.5; z-index: -2;
-        }
-        .guest-artists-container {
-            max-width: 1200px; margin: 0 auto; text-align: center;
-            position: relative; z-index: 1;
-             padding-top: 30px; /* Add padding to compensate for removed H2 */
-        }
-        .guest-artists-prompt-img {
-            display: block; max-width: 450px;
-            width: 85%; height: auto;
-            margin: 0 auto 50px auto;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
-        }
-        .guest-card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 35px; justify-items: center;
-        }
-        .guest-card {
-            background-color: transparent; border-radius: 10px;
-            padding: 0; box-shadow: none;
-            transition: transform 0.3s ease;
-            width: 100%; max-width: 210px;
-            display: flex; flex-direction: column; align-items: center;
-            cursor: pointer;
-        }
+        .guest-artists-section { padding: 80px 20px; background-color: var(--color-bg-guest); position: relative; z-index: 1; overflow: hidden; min-height: 100vh; }
+        .guest-artists-bg-floater { position: absolute; inset: 0; z-index: -1; pointer-events: none; perspective: 1500px; overflow: hidden; }
+        .guest-artists-section::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient( 135deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 10px ); background-size: 10px 10px; opacity: 0.5; z-index: -2; }
+        .guest-artists-container { max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 1; padding-top: 30px; }
+        .guest-artists-prompt-img { display: block; max-width: 450px; width: 85%; height: auto; margin: 0 auto 50px auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+        .guest-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 35px; justify-items: center; }
+        .guest-card { background-color: transparent; border-radius: 10px; padding: 0; box-shadow: none; transition: transform 0.3s ease; width: 100%; max-width: 210px; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
          .guest-card:hover { transform: scale(1.05); }
-        .guest-card img {
-            display: block; width: 100%;
-            max-width: calc(var(--card-width) * 1.15);
-            height: auto; border-radius: 8px;
-            margin-bottom: 0; object-fit: cover;
-            pointer-events: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: box-shadow 0.3s ease;
-        }
+        .guest-card img { display: block; width: 100%; max-width: calc(var(--card-width) * 1.15); height: auto; border-radius: 8px; margin-bottom: 0; object-fit: cover; pointer-events: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: box-shadow 0.3s ease; }
         .guest-card:hover img { box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
         .guest-card .artist-link { display: none; }
 
         /* --- Zoomed Artist View Styles --- */
-        .zoomed-artist-overlay {
-            position: fixed; inset: 0; background-color: var(--zoomed-overlay-bg);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 1000; opacity: 0; visibility: hidden;
-            transition: opacity var(--zoomed-transition-speed) ease, visibility 0s linear var(--zoomed-transition-speed);
-            padding: 20px; cursor: pointer; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-        }
-        .zoomed-artist-overlay.visible {
-            opacity: 1; visibility: visible;
-            transition: opacity var(--zoomed-transition-speed) ease, visibility 0s linear 0s, backdrop-filter var(--zoomed-transition-speed) ease;
-        }
-        .zoomed-artist-content {
-            display: flex; flex-direction: row; align-items: center;
-            justify-content: center; gap: 40px;
-            width: auto; height: auto; max-width: 90vw; max-height: 85vh;
-            cursor: default; transform: scale(0.95);
-            transition: transform var(--zoomed-transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
+        .zoomed-artist-overlay { position: fixed; inset: 0; background-color: var(--zoomed-overlay-bg); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity var(--zoomed-transition-speed) ease, visibility 0s linear var(--zoomed-transition-speed); padding: 20px; cursor: pointer; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+        .zoomed-artist-overlay.visible { opacity: 1; visibility: visible; transition: opacity var(--zoomed-transition-speed) ease, visibility 0s linear 0s, backdrop-filter var(--zoomed-transition-speed) ease; }
+        .zoomed-artist-content { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 40px; width: auto; height: auto; max-width: 90vw; max-height: 85vh; cursor: default; transform: scale(0.95); transition: transform var(--zoomed-transition-speed) cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
         .zoomed-artist-overlay.visible .zoomed-artist-content { transform: scale(1); }
-        .zoomed-artist-image {
-            display: block; max-width: 45vw; max-height: 80vh;
-            width: auto; height: auto; object-fit: contain;
-            border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-            flex-shrink: 0;
-        }
-        .zoomed-artist-info {
-             display: flex; flex-direction: column; align-items: flex-start;
-             gap: 15px; max-width: 350px;
-             color: var(--color-text-light);
-        }
-        .zoomed-artist-name {
-            font-size: 3rem; font-weight: 700;
-            line-height: 1.1;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
-            margin-bottom: 5px;
-        }
-        .zoomed-artist-link { /* Button */
-            font-size: 1.1rem; font-weight: 600;
-            color: var(--color-text-dark);
-            background-image: linear-gradient(45deg, var(--color-accent) 0%, #ffffff 90%);
-            text-decoration: none; transition: all 0.2s ease;
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 12px 25px; border-radius: 8px;
-            border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            text-transform: uppercase; letter-spacing: 0.5px;
-            cursor: pointer;
-            opacity: 1;
-        }
+        .zoomed-artist-image { display: block; max-width: 45vw; max-height: 80vh; width: auto; height: auto; object-fit: contain; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.6); flex-shrink: 0; }
+        .zoomed-artist-info { display: flex; flex-direction: column; align-items: flex-start; gap: 15px; max-width: 350px; color: var(--color-text-light); }
+        .zoomed-artist-name { font-size: 3rem; font-weight: 700; line-height: 1.1; text-shadow: 2px 2px 5px rgba(0,0,0,0.8); margin-bottom: 5px; }
+        .zoomed-artist-link { font-size: 1.1rem; font-weight: 600; color: var(--color-text-dark); background-image: linear-gradient(45deg, var(--color-accent) 0%, #ffffff 90%); text-decoration: none; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; padding: 12px 25px; border-radius: 8px; border: none; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; opacity: 1; }
         .zoomed-artist-link::before { content: none; }
-        .zoomed-artist-link:hover {
-            color: var(--color-text-dark);
-            background-image: linear-gradient(45deg, #ffffff 0%, var(--color-accent) 100%);
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 6px 15px rgba(255, 255, 255, 0.15);
-            text-decoration: none;
-        }
-         .zoomed-artist-link:active {
-             transform: translateY(-1px) scale(0.99);
-             box-shadow: 0 2px 5px rgba(0,0,0,0.4);
-         }
-        .zoomed-close-button {
-             position: absolute; top: -15px; right: -15px;
-             background: var(--color-bg-purchase); border: 1px solid var(--color-text-medium);
-             color: var(--color-text-light); width: 35px; height: 35px; border-radius: 50%;
-             font-size: 1.8rem; font-weight: bold; line-height: 33px; text-align: center;
-             cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-        }
-         .zoomed-close-button:hover {
-             background: var(--color-accent); color: var(--color-text-dark);
-             transform: scale(1.1); border-color: var(--color-accent);
-         }
+        .zoomed-artist-link:hover { color: var(--color-text-dark); background-image: linear-gradient(45deg, #ffffff 0%, var(--color-accent) 100%); transform: translateY(-3px) scale(1.03); box-shadow: 0 6px 15px rgba(255, 255, 255, 0.15); text-decoration: none; }
+         .zoomed-artist-link:active { transform: translateY(-1px) scale(0.99); box-shadow: 0 2px 5px rgba(0,0,0,0.4); }
+        .zoomed-close-button { position: absolute; top: -15px; right: -15px; background: var(--color-bg-purchase); border: 1px solid var(--color-text-medium); color: var(--color-text-light); width: 35px; height: 35px; border-radius: 50%; font-size: 1.8rem; font-weight: bold; line-height: 33px; text-align: center; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+         .zoomed-close-button:hover { background: var(--color-accent); color: var(--color-text-dark); transform: scale(1.1); border-color: var(--color-accent); }
 
-        /* --- MOBILE RESPONSIVENESS --- */
-        @media (max-width: 850px) {
-            /* Purchase Section Responsive */
+        /* --- MOBILE OPTIMIZATIONS & RESPONSIVENESS --- */
+        @media (max-width: 768px) { /* Apply to tablets and phones */
+             /* Reduce/Disable BG Animations */
+            .purchase-section::before,
+            .purchase-section::after {
+                 animation: none !important; /* Stop animations */
+                 /* Optionally hide completely if still laggy: display: none; */
+             }
+            .floating-card-container {
+                 filter: none !important; /* Remove blur on mobile */
+                 /* Optionally hide floaters completely if needed */
+                 /* display: none !important; */
+             }
+             /* #purchase-bg-cards, #guest-artists-bg-cards { display: none; } */ /* Alternative way to hide floaters */
+
+             /* Existing Responsive Styles */
             .purchase-display-area { flex-direction: column; gap: 40px; }
             .display-left { width: 80%; max-width: 400px; margin-bottom: 20px; gap: 15px; }
             .box-art-container { margin-bottom: 40px; max-width: 100%;}
@@ -292,7 +189,6 @@
             .purchase-content > p { font-size: 1.1rem; margin-bottom: 30px; }
             .buy-button { padding: 16px 40px; font-size: 1.2rem; }
             .button-link { margin-top: 20px; }
-            .floating-card-container { opacity: 0.1; filter: blur(2px) grayscale(50%); }
 
             /* Guest Artist Responsive */
             .guest-artists-section { padding: 60px 15px; }
@@ -301,24 +197,20 @@
             .guest-card { max-width: 180px; }
 
             /* Zoomed View Responsive */
-            .zoomed-artist-content {
-                flex-direction: column; gap: 20px; max-width: 95vw; max-height: 90vh; padding: 10px;
-            }
+            .zoomed-artist-content { flex-direction: column; gap: 20px; max-width: 95vw; max-height: 90vh; padding: 10px; }
             .zoomed-artist-image { max-width: 80vw; max-height: 55vh; }
-            .zoomed-artist-info {
-                align-items: center; max-width: 80vw; text-align: center; gap: 15px;
-            }
+            .zoomed-artist-info { align-items: center; max-width: 80vw; text-align: center; gap: 15px; }
             .zoomed-artist-name { font-size: 2rem; }
             .zoomed-artist-link { font-size: 1rem; padding: 10px 20px; }
             .zoomed-close-button { top: 5px; right: 5px; width: 30px; height: 30px; font-size: 1.5rem; line-height: 28px;}
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 480px) { /* Phones */
             /* Hero/Purchase Responsive */
             :root { --card-width: 120px; --card-height: 182px; --h-row-gap: 15px; --v-col-gap: 15px;}
             .game-logo { width: 180px; top: 20px;}
             .scroll-prompt { font-size: 1.2rem; bottom: 25px;} .scroll-prompt::after { font-size: 1.4rem;}
-            .purchase-section { padding: 50px 15px 100px 15px; /* Adjust bottom padding */}
+            .purchase-section { padding: 50px 15px 100px 15px; }
             .purchase-display-area { gap: 30px; }
             .display-left { width: 85%; gap: 10px; }
             .box-art-container { margin-bottom: 35px; }
@@ -328,7 +220,6 @@
             .purchase-content > p { font-size: 1rem; }
             .buy-button { padding: 14px 35px; font-size: 1.1rem; }
             .button-link { margin-top: 25px; }
-            .floating-card-container { opacity: 0.08; filter: blur(2.5px) grayscale(60%); }
              /* Artist scroll prompt responsive */
              .artist-scroll-prompt { bottom: 25px; font-size: 1rem;}
              .artist-scroll-prompt::after { font-size: 1.2rem; margin-top: 2px;}
@@ -455,17 +346,36 @@
         const zoomedArtistName = document.getElementById('zoomed-artist-name');
         const zoomedArtistLink = document.getElementById('zoomed-artist-link');
         const zoomedCloseButton = document.querySelector('.zoomed-close-button');
-        const artistScrollPrompt = document.getElementById('artist-scroll-prompt'); // <-- New Ref
+        const artistScrollPrompt = document.getElementById('artist-scroll-prompt');
 
         // --- Card Data (Main Game) ---
         const numUniqueDesigns = 20;
         // REMINDER: Host assets locally!
         const cardsData = [ { id: 1, title: "Dumpster Diving", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763917223759962/Dumpster_Diving.png?ex=67f8aa55&is=67f758d5&hm=6b28837d7bceaeac8d6701d8a55770fd326f0a4d4b344302cc15dc7f08c58b86&=&format=webp&quality=lossless&width=625&height=948" }, { id: 2, title: "Reverse", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763917684998204/Reverse.png?ex=67f8aa55&is=67f758d5&hm=48d713a742d3904a917ba310921c8cfd3e6ca9f5c282fa9b3ad3fefbb086dda4&=&format=webp&quality=lossless&width=625&height=948" }, { id: 3, title: "Sneaky Peak", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763918116880485/Sneaky_Peak.png?ex=67f8aa55&is=67f758d5&hm=75ec3598943eef735f237110d3c3615342d2ba4a4cc358c5786ba178300aa323&=&format=webp&quality=lossless&width=625&height=948" }, { id: 4, title: "Tail Serum", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763918641434776/Tail_Serum.png?ex=67f8aa55&is=67f758d5&hm=d2cdc63b563e53e42e995b980334860bfb809e8d8a53a016144ae74d3931e38f&=&format=webp&quality=lossless&width=625&height=948" }, { id: 5, title: "Desperate Times", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763919102541935/Desperate_Times.png?ex=67f8aa55&is=67f758d5&hm=ac556ef51cdb68f81f78f366a28d017f4bc2413026c5c893fadbd705ba214f5f&=&format=webp&quality=lossless&width=625&height=948" }, { id: 6, title: "Draw Two", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763919643738192/Draw_Two.png?ex=67f8aa55&is=67f758d5&hm=8bdad43e83aa6e6a9843ff0be35c0661c3c3285f264a75e4e3b09e23e5283349&=&format=webp&quality=lossless&width=625&height=948" }, { id: 7, title: "Goober", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763971447717969/Goober.png?ex=67f8aa61&is=67f758e1&hm=8f4d4eed9a04cd414f164139f74a43d7b8f07803b9d5e3fd030cac739faf2e7e&=&format=webp&quality=lossless&width=625&height=948" }, { id: 8, title: "Tail Robbery", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763972018147348/Tail_Robbery.png?ex=67f8aa62&is=67f758e2&hm=c1c662dd291791c758f13ed29e498605c9d4e5cb83044e30b3884b5d3a95f405&=&format=webp&quality=lossless&width=625&height=948" }, { id: 9, title: "Tail Snip", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763972538237108/Tail_Snip.png?ex=67f8aa62&is=67f758e2&hm=ec18fcda03ee5fed2e6f381227bbbf5ddad43baf95529fe4fef847b250d85ea9&=&format=webp&quality=lossless&width=625&height=948" }, { id: 10, title: "Tail Swap", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763973141954752/Tail_Swap.png?ex=67f8aa62&is=67f758e2&hm=174bfbbfcbba423fdc0115e23214ed92c26f392d168cf4caebff4623666ad697&=&format=webp&quality=lossless&width=625&height=948" }, { id: 11, title: "Tail Tangle", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763973699801200/Tail_Tangle.png?ex=67f8aa62&is=67f758e2&hm=86408d494a6f546e2755064f1989f4cabe3e66b039dc89f1ce0a00adb3ba9a4e&=&format=webp&quality=lossless&width=625&height=948" }, { id: 12, title: "Tail Theft", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763974232735744/Tail_Theft.png?ex=67f8aa62&is=67f758e2&hm=fca4450c5269d2de5288a576f24ad3ede653460acdaca4fbe9f2ce4fbd136638&=&format=webp&quality=lossless&width=625&height=948" }, { id: 13, title: "Mirror", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763931169554643/Mirror.png?ex=67f8aa58&is=67f758d8&hm=9818ca038e6f92440b20f7a1233ba251074f065183ca3c54f4329708484c67aa&=&format=webp&quality=lossless&width=625&height=948" }, { id: 14, title: "Nope", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763931673006232/nope.png?ex=67f8aa58&is=67f758d8&hm=e3d7d67772352521f4c5887da07cef87c77a88c4afa2c34dafa9686b028ba9b0&=&format=webp&quality=lossless&width=625&height=948" }, { id: 15, title: "Cat Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763986077454458/cat_tail_new.png?ex=67f8aa65&is=67f758e5&hm=819f66f83ce2def9c7943b1c6c73790f134cb6b74f7c65f7533191e7592724ee&=&format=webp&quality=lossless&width=625&height=948" }, { id: 16, title: "Dragon Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763986660331620/dragon_tail_new.png?ex=67f8aa65&is=67f758e5&hm=45e31c95207f2e319157ded06848936da1d37c703d88a9f3c83640d35e7a8ddc&=&format=webp&quality=lossless&width=625&height=948" }, { id: 17, title: "Fox Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763987306385498/Fox_Tail_new.png?ex=67f8aa65&is=67f758e5&hm=4e68ccb70c53ba2c8e8df87f1537776e748bf7ebb2598b157586817a449411b9&=&format=webp&quality=lossless&width=625&height=948" }, { id: 18, title: "Racoon Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763987834736773/Racoon_Tail_new.png?ex=67f8aa65&is=67f758e5&hm=cdea73d8c5c5044a209e8613f6c309cd68d2fbd33072486b70793078d8cae1e3&=&format=webp&quality=lossless&width=625&height=948" }, { id: 19, title: "Rainbow Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763988719865867/rainbow_tail_new.png?ex=67f8aa66&is=67f758e6&hm=29d21f4d6580d70ecd15298700d747b219ebff13ac707fcf7801a44fa42cafda&=&format=webp&quality=lossless&width=625&height=948" }, { id: 20, title: "Wolf Tail", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359763989223051274/wolf_tail_new.png?ex=67f8aa66&is=67f758e6&hm=10f80da6e953e28a24942387a34ae4378c7a02e74f3ad544ac792bac426b652e&=&format=webp&quality=lossless&width=625&height=948" } ];
 
-        // --- Guest Artist Data ---
-        // IMPORTANT: Replace the '#' in platformUrl with the ACTUAL links!
+        // --- Guest Artist Data --- UPDATED WITH URLS ---
         // REMINDER: Host assets locally!
-        const guestArtistData = [ { id: "zylith", name: "Zylith", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812829753905173/4_Artist_promo_Zylith_4.png?ex=67f8d7e2&is=67f78662&hm=b7ac68846e05b9024a50c960d2cfa9cde65bc51c6f8dac0946bff2ca70ad3ca3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://nogitsune-shrine.carrd.co" }, { id: "casper", name: "Casper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830299422871/1_Artist_promo_Casper_1.png?ex=67f8d7e2&is=67f78662&hm=9ba97b6f76042b11067cceeff16b5504d8f39a2851c396fb143c114f1b0566b0&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/casperclawell" }, { id: "bakaroni1", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830748217404/2_Artist_promo_Bakaroni_2_1.png?ex=67f8d7e2&is=67f78662&hm=489c85cf5fe95a3cd4214246cfb85ed230e439dba974e5ad00b5ec0191e303e3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" }, { id: "bakaroni2", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831473828001/2_Artist_promo_Bakaroni_2_2.png?ex=67f8d7e3&is=67f78663&hm=00803eaa5f8df3a294a8b89d3eee5898d6a8e7b9c658acce07662113b1df1255&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" }, { id: "turtike", name: "Turtike", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831947788391/3_Artist_promo_Turtike.png?ex=67f8d7e3&is=67f78663&hm=d1b5e5e7c2089c037baf39f05c250107f71849d099dd6e856a9e1484f469029a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/turtike/" }, { id: "northboyo", name: "Northboyo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812864797442098/10_Artist_promo_North_10.png?ex=67f8d7eb&is=67f7866b&hm=936a4a2289c1b8c3bf5e125a5cce5ab2c91620fbb2aea4508309757540254d47&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/northboyo/" }, { id: "racc1", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812865481117858/5_Artist_promo_Racc_5_1.png?ex=67f8d7eb&is=67f7866b&hm=d7db232e0f00990f3b4e48c55992c3efdc469b2a68c956fe589a16a7fb67ecfa&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" }, { id: "racc2", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866160459786/5_Artist_promo_Racc_5_2.png?ex=67f8d7eb&is=67f7866b&hm=72e36c367d08b5e2a41ca660bd4f4ae318615f22105a32887e2d45be3569751d&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" }, { id: "queenmocha", name: "Queen Mocha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866756055040/6_Artist_promo_Mummy_6.png?ex=67f8d7eb&is=67f7866b&hm=0c6ebbe07a0b28a4dd482d5ed61edb77fb6c304897a3f279c42a739cf9785b69&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/QueenMochaBun" }, { id: "taffy", name: "Taffy", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812867406430309/7_Artist_promo_Taffy_7.png?ex=67f8d7eb&is=67f7866b&hm=ec92b15803f63a0cf9e5b51115dc5c3e098fcd7b85d2a3a0cbeb4c18d71a8618&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://t.me/taffysart" }, { id: "spoopicus", name: "Spoopicus", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868077256765/8_Artist_promo_Max_8.png?ex=67f8d7eb&is=67f7866b&hm=c47c62941768f2edc069f0af8dc934cc3bc4552240f2f5b8faf128639da97e57&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/spoopicus/" }, { id: "lemoncurdll", name: "Lemoncurdll", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868572315831/9_Artist_promo_Lemon_9.png?ex=67f8d7eb&is=67f7866b&hm=16a469bee29b8c1cf915c1b3a98eee8df41045ca07f537c50d303ed75a318e6a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/llemoncurdll" }, { id: "rainard", name: "Rainard", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812898964373584/11_Artist_promo_Foxo_11.png?ex=67f8d7f3&is=67f78673&hm=2b6a36c997e42780735fb4b4e1021bb5535a9a28ffe325164ec89da656c0a339&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "#" }, { id: "cattoforge", name: "The Catto Forge", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900054634587/13_Artist_promo_maine_13.png?ex=67f8d7f3&is=67f78673&hm=b34f03117b63bbc939272c1d87746eefd53ba1ef97bb7147693b6afff16fbcad&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://thecattoforge.carrd.co" }, { id: "tonfoxsu", name: "Tonfoxsu", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812899513700452/12_Artist_promo_tofu_12.png?ex=67f8d7f3&is=67f78673&hm=ca6a5a1e63366f57f3a5753124fa669625b143295d9497ff9b1d3f3a01a59b76&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://tonfoxsu.carrd.co" }, { id: "roo", name: "Roo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900738564168/14_Artist_promo_Roo_14.png?ex=67f8d7f3&is=67f78673&hm=f160400a9e88d4254dd7fbe53037bf92ba99bbb0949aa21e02a774b6acea4e96&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://featheri-roo.carrd.co/#" }, { id: "oomanagarcha", name: "Oomanagarcha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901321310372/16_Artist_promo_Ooma_16.png?ex=67f8d7f3&is=67f78673&hm=d74fda53c5422e93a200762010d9d285d770452b465301822556a2bda3dea1c2&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/oomanagarcha" }, { id: "astralembers", name: "Astral Embers", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901925552199/17_Artist_promo_Ember_17.png?ex=67f8d7f3&is=67f78673&hm=06b7702a5d29ab69f93e969459562000ed4a13a1f4340f794a789babe93ac6bd&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/_.astral.embers._/" }, { id: "jasper", name: "Jasper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812902395318341/19_Artist_Promo_Jasper_19.png?ex=67f8d7f4&is=67f78674&hm=bc75c9a48c10fe20f0213918572c4bcf9633bef66874ea0038e0d5ee96a59d18&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://bsky.app/profile/jaspersartvault.bsky.social" } ];
+        const guestArtistData = [
+            { id: "zylith", name: "Zylith", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812829753905173/4_Artist_promo_Zylith_4.png?ex=67f8d7e2&is=67f78662&hm=b7ac68846e05b9024a50c960d2cfa9cde65bc51c6f8dac0946bff2ca70ad3ca3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://nogitsune-shrine.carrd.co" },
+            { id: "casper", name: "Casper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830299422871/1_Artist_promo_Casper_1.png?ex=67f8d7e2&is=67f78662&hm=9ba97b6f76042b11067cceeff16b5504d8f39a2851c396fb143c114f1b0566b0&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/casperclawell" },
+            { id: "bakaroni1", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830748217404/2_Artist_promo_Bakaroni_2_1.png?ex=67f8d7e2&is=67f78662&hm=489c85cf5fe95a3cd4214246cfb85ed230e439dba974e5ad00b5ec0191e303e3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" },
+            { id: "bakaroni2", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831473828001/2_Artist_promo_Bakaroni_2_2.png?ex=67f8d7e3&is=67f78663&hm=00803eaa5f8df3a294a8b89d3eee5898d6a8e7b9c658acce07662113b1df1255&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" },
+            { id: "turtike", name: "Turtike", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831947788391/3_Artist_promo_Turtike.png?ex=67f8d7e3&is=67f78663&hm=d1b5e5e7c2089c037baf39f05c250107f71849d099dd6e856a9e1484f469029a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/turtike/" },
+            { id: "northboyo", name: "Northboyo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812864797442098/10_Artist_promo_North_10.png?ex=67f8d7eb&is=67f7866b&hm=936a4a2289c1b8c3bf5e125a5cce5ab2c91620fbb2aea4508309757540254d47&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/northboyo/" },
+            { id: "racc1", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812865481117858/5_Artist_promo_Racc_5_1.png?ex=67f8d7eb&is=67f7866b&hm=d7db232e0f00990f3b4e48c55992c3efdc469b2a68c956fe589a16a7fb67ecfa&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
+            { id: "racc2", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866160459786/5_Artist_promo_Racc_5_2.png?ex=67f8d7eb&is=67f7866b&hm=72e36c367d08b5e2a41ca660bd4f4ae318615f22105a32887e2d45be3569751d&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
+            { id: "queenmocha", name: "Queen Mocha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866756055040/6_Artist_promo_Mummy_6.png?ex=67f8d7eb&is=67f7866b&hm=0c6ebbe07a0b28a4dd482d5ed61edb77fb6c304897a3f279c42a739cf9785b69&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/QueenMochaBun" },
+            { id: "taffy", name: "Taffy", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812867406430309/7_Artist_promo_Taffy_7.png?ex=67f8d7eb&is=67f7866b&hm=ec92b15803f63a0cf9e5b51115dc5c3e098fcd7b85d2a3a0cbeb4c18d71a8618&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://t.me/taffysart" },
+            { id: "spoopicus", name: "Spoopicus", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868077256765/8_Artist_promo_Max_8.png?ex=67f8d7eb&is=67f7866b&hm=c47c62941768f2edc069f0af8dc934cc3bc4552240f2f5b8faf128639da97e57&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/spoopicus/" },
+            { id: "lemoncurdll", name: "Lemoncurdll", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868572315831/9_Artist_promo_Lemon_9.png?ex=67f8d7eb&is=67f7866b&hm=16a469bee29b8c1cf915c1b3a98eee8df41045ca07f537c50d303ed75a318e6a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/llemoncurdll" },
+            { id: "rainard", name: "Rainard", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812898964373584/11_Artist_promo_Foxo_11.png?ex=67f8d7f3&is=67f78673&hm=2b6a36c997e42780735fb4b4e1021bb5535a9a28ffe325164ec89da656c0a339&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "#" }, // Placeholder kept
+            { id: "tonfoxsu", name: "Tonfoxsu", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812899513700452/12_Artist_promo_tofu_12.png?ex=67f8d7f3&is=67f78673&hm=ca6a5a1e63366f57f3a5753124fa669625b143295d9497ff9b1d3f3a01a59b76&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://tonfoxsu.carrd.co" },
+            { id: "cattoforge", name: "The Catto Forge", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900054634587/13_Artist_promo_maine_13.png?ex=67f8d7f3&is=67f78673&hm=b34f03117b63bbc939272c1d87746eefd53ba1ef97bb7147693b6afff16fbcad&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://thecattoforge.carrd.co" },
+            { id: "roo", name: "Roo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900738564168/14_Artist_promo_Roo_14.png?ex=67f8d7f3&is=67f78673&hm=f160400a9e88d4254dd7fbe53037bf92ba99bbb0949aa21e02a774b6acea4e96&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://featheri-roo.carrd.co/#" },
+            { id: "oomanagarcha", name: "Oomanagarcha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901321310372/16_Artist_promo_Ooma_16.png?ex=67f8d7f3&is=67f78673&hm=d74fda53c5422e93a200762010d9d285d770452b465301822556a2bda3dea1c2&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/oomanagarcha" },
+            { id: "astralembers", name: "Astral Embers", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901925552199/17_Artist_promo_Ember_17.png?ex=67f8d7f3&is=67f78673&hm=06b7702a5d29ab69f93e969459562000ed4a13a1f4340f794a789babe93ac6bd&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/_.astral.embers._/" },
+            { id: "jasper", name: "Jasper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812902395318341/19_Artist_Promo_Jasper_19.png?ex=67f8d7f4&is=67f78674&hm=bc75c9a48c10fe20f0213918572c4bcf9633bef66874ea0038e0d5ee96a59d18&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://bsky.app/profile/jaspersartvault.bsky.social" }
+        ];
 
         // --- Card Generation Functions ---
         function shuffleArray(array) { for (let i=array.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [array[i], array[j]]=[array[j], array[i]];} return array;}
@@ -477,13 +387,41 @@
         // --- Calculate Scroll Dimensions ---
         function calculateScrollDimensions() { const rS=document.documentElement.style; const bS=getComputedStyle(document.body); const bgH=bS.getPropertyValue('--color-bg').trim(); if(bgH.startsWith('#')){ const h=bgH.substring(1); const r=parseInt(h.substring(0,2),16)||26; const g=parseInt(h.substring(2,4),16)||26; const b=parseInt(h.substring(4,6),16)||26; rS.setProperty('--color-bg-rgb',`${r},${g},${b}`);} if(vColumn){ const vC=vColumn.querySelectorAll('.card-container'); if(vC.length>=numUniqueDesigns){ const cH=vC[0].offsetHeight; const g=parseFloat(getComputedStyle(vColumn).gap)||0; const sH=(cH+g)*numUniqueDesigns; rS.setProperty('--v-col-scroll-height',`${sH}px`);}} if(hTrackTop){ const hCT=hTrackTop.querySelectorAll('.card-container'); if(hCT.length>=numUniqueDesigns){ const cW=hCT[0].offsetWidth; const g=parseFloat(getComputedStyle(hTrackTop).gap)||0; const sW=(cW+g)*numUniqueDesigns; hTrackTop.style.width=`${sW*2}px`; if(hTrackBottom)hTrackBottom.style.width=`${sW*2}px`; rS.setProperty('--h-row-scroll-width',`${sW}px`);}}}
 
-        // --- Populate Background Floating Cards (Generic Function) ---
-        function populateBackgroundFloaters(container, dataArray, cardCount = 16) { if (!container) return; const isMobile = window.innerWidth <= 768; const numFloatingCards = isMobile ? Math.max(4, Math.floor(cardCount / 2.5)) : cardCount; let floatingHTML = ''; const shuffledBgCards = shuffleArray([...dataArray]); for (let i = 0; i < numFloatingCards; i++) { const cardData = shuffledBgCards[i % dataArray.length]; if (!cardData || !cardData.imageUrl) continue; const rT = Math.random() * 85 + 5; const rL = Math.random() * 85 + 5; const rDu = Math.random() * 30 + 45; const rDe = Math.random() * -rDu; const iRX = (Math.random() - 0.5) * 30; const iRY = (Math.random() - 0.5) * 40; const iS = Math.random() * 0.2 + 0.9; const style = `top:${rT}%; left:${rL}%; animation-duration:${rDu}s; animation-delay:${rDe}s; transform:rotateX(${iRX}deg) rotateY(${iRY}deg) scale(${iS});`; floatingHTML += `<div class="floating-card-container" style="${style}"><div class="card" style="background-image: url('${cardData.imageUrl}'); background-size: cover; background-position: center;"></div></div>`; } container.innerHTML = floatingHTML;}
+        // --- Populate Background Floating Cards (Optimized for Mobile) ---
+        function populateBackgroundFloaters(container, dataArray, cardCount = 16) {
+            if (!container) return;
+            const isMobile = window.innerWidth <= 768;
+            // Drastically reduce count on mobile
+            const numFloatingCards = isMobile ? 4 : cardCount; // e.g., only 4 on mobile
+            let floatingHTML = '';
+            const shuffledBgCards = shuffleArray([...dataArray]);
+
+            for (let i = 0; i < numFloatingCards; i++) {
+                const cardData = shuffledBgCards[i % dataArray.length];
+                if (!cardData || !cardData.imageUrl) continue;
+                const rT = Math.random() * 85 + 5;
+                const rL = Math.random() * 85 + 5;
+                const rDu = Math.random() * 30 + 45;
+                const rDe = Math.random() * -rDu;
+                const iRX = (Math.random() - 0.5) * 30;
+                const iRY = (Math.random() - 0.5) * 40;
+                const iS = Math.random() * 0.2 + 0.9;
+                const style = `top:${rT}%; left:${rL}%; animation-duration:${rDu}s; animation-delay:${rDe}s; transform:rotateX(${iRX}deg) rotateY(${iRY}deg) scale(${iS});`;
+                // Use simple div with background image for floaters (no flip needed)
+                floatingHTML += `
+                    <div class="floating-card-container" style="${style}">
+                        <div class="card" style="background-image: url('${cardData.imageUrl}'); background-size: cover; background-position: center;">
+                           <!-- No front/back needed for simple floater -->
+                        </div>
+                    </div>`;
+            }
+            container.innerHTML = floatingHTML;
+        }
 
         // --- Populate Guest Artists Grid ---
         function populateGuestArtists() { if (!guestArtistGrid) return; let guestHTML = ''; guestArtistData.forEach((artist, index) => { guestHTML += ` <div class="guest-card" data-artist-id="${artist.id || index}" data-artist-name="${artist.name}" data-artist-img="${artist.imageUrl}" data-artist-url="${artist.platformUrl}"> <img src="${artist.imageUrl}" alt="Guest artist card by ${artist.name}" loading="lazy"> <span class="artist-link">${artist.name}</span> </div> `; }); guestArtistGrid.innerHTML = guestHTML;}
 
-        // --- Zoomed Artist View Logic (Corrected) ---
+        // --- Zoomed Artist View Logic ---
         function showZoomedArtistView(artistData) {
             if (!zoomedArtistView || !artistData) return;
             zoomedImg.src = artistData.img;
@@ -492,24 +430,23 @@
             zoomedArtistLink.href = artistData.url || "#"; // Use # as fallback if url missing
             zoomedArtistLink.textContent = "Artist's Socials";
 
-            // *** CORRECTED Condition: Show button if URL exists (even if '#') ***
-            if (artistData.url) { // Check if the url property exists in the data
-                zoomedArtistInfo.style.display = 'flex';    // Ensure info block is visible
-                zoomedArtistLink.style.display = 'inline-flex'; // SHOW the button
+            // Show button if URL exists (even if '#')
+            if (artistData.url) {
+                zoomedArtistInfo.style.display = 'flex';
+                zoomedArtistLink.style.display = 'inline-flex';
                 zoomedArtistLink.setAttribute('aria-label', `Visit ${artistData.name}'s socials`);
 
-                // Optional visual cue for placeholder links (can be removed later)
-                if (artistData.url === "#") {
-                   zoomedArtistLink.style.opacity = 0.7; // Make placeholder slightly transparent
-                   zoomedArtistLink.style.cursor = 'default'; // Indicate it's not active yet
+                // Reset opacity/cursor for real links (now that URLs are provided)
+                if (artistData.url === "#") { // Keep placeholder styling if '#' remains
+                   zoomedArtistLink.style.opacity = 0.7;
+                   zoomedArtistLink.style.cursor = 'default';
                 } else {
                    zoomedArtistLink.style.opacity = 1; // Full opacity for real links
                    zoomedArtistLink.style.cursor = 'pointer';
                 }
             } else {
-                // Only hide button if artistData.url is truly missing/null/undefined
                 zoomedArtistInfo.style.display = 'flex';
-                zoomedArtistLink.style.display = 'none';
+                zoomedArtistLink.style.display = 'none'; // Hide button if URL is truly missing
             }
 
             document.body.classList.add('zoomed-open');
@@ -527,22 +464,21 @@
         let isSnapping = false;
         let snapTimeout;
         const SNAP_DELAY = 800;
-        let isHeroPromptHidden = false; // Renamed for clarity
-        let isArtistPromptHidden = false; // New state for artist prompt
+        let isHeroPromptHidden = false;
+        let isArtistPromptHidden = false;
+        let throttleTimer = false; // Timer flag for throttling
 
         // Separate function to handle prompt visibility based on scroll
         function updatePromptVisibility() {
-             if (!guestArtistsSection || !artistScrollPrompt) return; // Ensure elements exist
+             if (!guestArtistsSection || !artistScrollPrompt) return;
 
              const currentScroll = window.scrollY;
              const viewportHeight = window.innerHeight;
              const guestArtistsTop = guestArtistsSection.offsetTop;
 
-             // Thresholds for Artist Prompt (adjust as needed)
-             const artistPromptHideThreshold = guestArtistsTop - viewportHeight * 0.7; // Hide when guest section is ~70% visible
-             const artistPromptShowThreshold = guestArtistsTop - viewportHeight * 0.8; // Show if scrolled above that
+             const artistPromptHideThreshold = guestArtistsTop - viewportHeight * 0.7;
+             const artistPromptShowThreshold = guestArtistsTop - viewportHeight * 0.8;
 
-             // Artist Prompt Visibility
              if (!isArtistPromptHidden && currentScroll > artistPromptHideThreshold) {
                  artistScrollPrompt.classList.add('hidden');
                  isArtistPromptHidden = true;
@@ -551,8 +487,7 @@
                  isArtistPromptHidden = false;
              }
 
-             // Hero Prompt Visibility (existing logic, slightly adjusted threshold)
-             const heroPromptHideThreshold = 50; // Hide hero prompt quickly
+             const heroPromptHideThreshold = 50;
              if (!isHeroPromptHidden && currentScroll > heroPromptHideThreshold) {
                   scrollPrompt?.classList.add('hidden');
                   heroSection?.classList.add('prompt-hidden');
@@ -564,89 +499,78 @@
              }
         }
 
-
         function handleWheelScroll(event) {
             if (isSnapping) {
-                event.preventDefault(); // Prevent default scroll while snapping
+                event.preventDefault();
                 return;
             }
 
-            // Update prompt visibility on any scroll event (when not snapping)
-            updatePromptVisibility();
+            // Throttle the prompt visibility check during normal scroll
+            if (!throttleTimer) {
+                 throttleTimer = true;
+                 setTimeout(() => {
+                     updatePromptVisibility();
+                     throttleTimer = false;
+                 }, 100); // Check visibility at most every 100ms
+             }
 
             const currentScroll = window.scrollY;
             const viewportHeight = window.innerHeight;
             const heroHeight = heroSection.offsetHeight;
             const purchaseTop = purchaseSection.offsetTop;
             const guestArtistsTop = guestArtistsSection.offsetTop;
-
             const scrollDown = event.deltaY > 0;
             const scrollUp = event.deltaY < 0;
-
-            // Define thresholds (adjust as needed)
             const snapToPurchaseThreshold = heroHeight * 0.5;
             const snapToGuestThreshold = purchaseTop + viewportHeight * 0.3;
             const snapUpToPurchaseThreshold = guestArtistsTop - viewportHeight * 0.5;
             const snapUpToHeroThreshold = purchaseTop - viewportHeight * 0.7;
 
-            // --- Scrolling Down ---
             if (scrollDown) {
-                // Snap Hero -> Purchase
                 if (currentScroll < snapToPurchaseThreshold && currentScroll < purchaseTop) {
                     isSnapping = true; event.preventDefault();
-                    if (!isHeroPromptHidden) { scrollPrompt?.classList.add('hidden'); heroSection?.classList.add('prompt-hidden'); isHeroPromptHidden = true; } // Hide hero prompt on snap
+                    if (!isHeroPromptHidden) { scrollPrompt?.classList.add('hidden'); heroSection?.classList.add('prompt-hidden'); isHeroPromptHidden = true; }
                     scrollWrapper?.classList.add('fading-out');
                     purchaseSection.scrollIntoView({ behavior: 'smooth' });
-                    clearTimeout(snapTimeout); snapTimeout = setTimeout(() => { isSnapping = false; updatePromptVisibility(); /* Update prompts after snap */ }, SNAP_DELAY);
-                }
-                // Snap Purchase -> Guest Artists
-                else if (currentScroll > purchaseTop && currentScroll < snapToGuestThreshold && currentScroll < guestArtistsTop) {
+                    clearTimeout(snapTimeout); snapTimeout = setTimeout(() => { isSnapping = false; updatePromptVisibility(); }, SNAP_DELAY);
+                } else if (currentScroll > purchaseTop && currentScroll < snapToGuestThreshold && currentScroll < guestArtistsTop) {
                      isSnapping = true; event.preventDefault();
-                     if (!isArtistPromptHidden) { artistScrollPrompt?.classList.add('hidden'); isArtistPromptHidden = true; } // Hide artist prompt on snap
+                     if (!isArtistPromptHidden) { artistScrollPrompt?.classList.add('hidden'); isArtistPromptHidden = true; }
                      scrollWrapper?.classList.add('fading-out');
                      guestArtistsSection.scrollIntoView({ behavior: 'smooth' });
-                     clearTimeout(snapTimeout); snapTimeout = setTimeout(() => { isSnapping = false; updatePromptVisibility(); /* Update prompts after snap */ }, SNAP_DELAY);
+                     clearTimeout(snapTimeout); snapTimeout = setTimeout(() => { isSnapping = false; updatePromptVisibility(); }, SNAP_DELAY);
                 }
-            }
-            // --- Scrolling Up ---
-            else if (scrollUp) {
-                // Snap Guest Artists -> Purchase
+            } else if (scrollUp) {
                 if (currentScroll > snapUpToPurchaseThreshold && currentScroll > purchaseTop) {
                     isSnapping = true; event.preventDefault();
-                    if (isArtistPromptHidden) { artistScrollPrompt?.classList.remove('hidden'); isArtistPromptHidden = false; } // Show artist prompt on snap up
+                    if (isArtistPromptHidden) { artistScrollPrompt?.classList.remove('hidden'); isArtistPromptHidden = false; }
                     scrollWrapper?.classList.add('fading-out');
                     purchaseSection.scrollIntoView({ behavior: 'smooth' });
-                    clearTimeout(snapTimeout); snapTimeout = setTimeout(() => { isSnapping = false; updatePromptVisibility(); /* Update prompts after snap */ }, SNAP_DELAY);
-                }
-                // Snap Purchase -> Hero
-                else if (currentScroll > snapUpToHeroThreshold && currentScroll < purchaseTop + viewportHeight * 0.5) {
+                    clearTimeout(snapTimeout); snapTimeout = setTimeout(() => { isSnapping = false; updatePromptVisibility(); }, SNAP_DELAY);
+                } else if (currentScroll > snapUpToHeroThreshold && currentScroll < purchaseTop + viewportHeight * 0.5) {
                     isSnapping = true; event.preventDefault();
-                     if (isHeroPromptHidden) { scrollPrompt?.classList.remove('hidden'); heroSection?.classList.remove('prompt-hidden'); isHeroPromptHidden = false; } // Show hero prompt on snap up
+                     if (isHeroPromptHidden) { scrollPrompt?.classList.remove('hidden'); heroSection?.classList.remove('prompt-hidden'); isHeroPromptHidden = false; }
                     scrollWrapper?.classList.remove('fading-out');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                    clearTimeout(snapTimeout); snapTimeout = setTimeout(() => { isSnapping = false; updatePromptVisibility(); /* Update prompts after snap */ }, SNAP_DELAY);
+                    clearTimeout(snapTimeout); snapTimeout = setTimeout(() => { isSnapping = false; updatePromptVisibility(); }, SNAP_DELAY);
                 }
             }
         }
 
         // --- Initialization ---
-        let resizeTimer; function handleResize() { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { calculateScrollDimensions(); populateBackgroundFloaters(purchaseBgFloater, cardsData); populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12); updatePromptVisibility(); /* Check visibility on resize */ }, 250);}
-        let ready = false; function onReady() { if (ready) return; ready = true; populateTracks(); calculateScrollDimensions(); populateGuestArtists(); populateBackgroundFloaters(purchaseBgFloater, cardsData); populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12);
+        let resizeTimer; function handleResize() { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { calculateScrollDimensions(); populateBackgroundFloaters(purchaseBgFloater, cardsData); populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12); updatePromptVisibility(); }, 250);}
+        let ready = false; function onReady() { if (ready) return; ready = true; populateTracks(); calculateScrollDimensions(); populateGuestArtists(); populateBackgroundFloaters(purchaseBgFloater, cardsData); populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 4); // Further reduced guest floaters for mobile safety
 
-            // Initial Prompt Visibility Check
-             updatePromptVisibility(); // Call the function to set initial states
+            updatePromptVisibility(); // Set initial prompt states
 
             window.addEventListener('resize', handleResize);
             window.addEventListener('wheel', handleWheelScroll, { passive: false });
 
-            // Initial scroll wrapper state
-             if (window.scrollY > heroSection.offsetHeight * 0.5) {
-                scrollWrapper?.classList.add('fading-out');
-             }
+            if (window.scrollY > heroSection.offsetHeight * 0.5) { scrollWrapper?.classList.add('fading-out'); }
         }
 
         window.addEventListener('load', onReady);
-        document.addEventListener('DOMContentLoaded', () => { setTimeout(onReady, 200); }); // Keep fallback
+        document.addEventListener('DOMContentLoaded', () => { setTimeout(onReady, 200); });
 
     </script>
 
