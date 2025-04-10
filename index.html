@@ -162,19 +162,24 @@
          .zoomed-close-button:hover { background: var(--color-accent); color: var(--color-text-dark); transform: scale(1.1); border-color: var(--color-accent); }
 
         /* --- MOBILE OPTIMIZATIONS & RESPONSIVENESS --- */
-        @media (max-width: 768px) { /* Apply to tablets and phones */
-             /* Reduce/Disable BG Animations */
+        @media (max-width: 768px) {
+             /* Disable/Reduce BG Animations */
             .purchase-section::before,
-            .purchase-section::after {
-                 animation: none !important; /* Stop animations */
-                 /* Optionally hide completely if still laggy: display: none; */
+            .purchase-section::after,
+            .guest-artists-section::before, /* Also disable guest section patterns if needed */
+            .guest-artists-section::after { /* Disable potential future guest patterns */
+                 animation: none !important;
              }
             .floating-card-container {
-                 filter: none !important; /* Remove blur on mobile */
-                 /* Optionally hide floaters completely if needed */
-                 /* display: none !important; */
-             }
-             /* #purchase-bg-cards, #guest-artists-bg-cards { display: none; } */ /* Alternative way to hide floaters */
+                 /* Disable floating animation */
+                 animation: none !important;
+                 /* Remove blur */
+                 filter: none !important;
+                 /* Further reduce opacity maybe */
+                 /* opacity: 0.05 !important; */
+            }
+            /* Uncomment below to completely hide floaters on mobile */
+            /* #purchase-bg-cards, #guest-artists-bg-cards { display: none; } */
 
              /* Existing Responsive Styles */
             .purchase-display-area { flex-direction: column; gap: 40px; }
@@ -355,27 +360,7 @@
 
         // --- Guest Artist Data --- UPDATED WITH URLS ---
         // REMINDER: Host assets locally!
-        const guestArtistData = [
-            { id: "zylith", name: "Zylith", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812829753905173/4_Artist_promo_Zylith_4.png?ex=67f8d7e2&is=67f78662&hm=b7ac68846e05b9024a50c960d2cfa9cde65bc51c6f8dac0946bff2ca70ad3ca3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://nogitsune-shrine.carrd.co" },
-            { id: "casper", name: "Casper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830299422871/1_Artist_promo_Casper_1.png?ex=67f8d7e2&is=67f78662&hm=9ba97b6f76042b11067cceeff16b5504d8f39a2851c396fb143c114f1b0566b0&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/casperclawell" },
-            { id: "bakaroni1", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830748217404/2_Artist_promo_Bakaroni_2_1.png?ex=67f8d7e2&is=67f78662&hm=489c85cf5fe95a3cd4214246cfb85ed230e439dba974e5ad00b5ec0191e303e3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" },
-            { id: "bakaroni2", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831473828001/2_Artist_promo_Bakaroni_2_2.png?ex=67f8d7e3&is=67f78663&hm=00803eaa5f8df3a294a8b89d3eee5898d6a8e7b9c658acce07662113b1df1255&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" },
-            { id: "turtike", name: "Turtike", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831947788391/3_Artist_promo_Turtike.png?ex=67f8d7e3&is=67f78663&hm=d1b5e5e7c2089c037baf39f05c250107f71849d099dd6e856a9e1484f469029a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/turtike/" },
-            { id: "northboyo", name: "Northboyo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812864797442098/10_Artist_promo_North_10.png?ex=67f8d7eb&is=67f7866b&hm=936a4a2289c1b8c3bf5e125a5cce5ab2c91620fbb2aea4508309757540254d47&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/northboyo/" },
-            { id: "racc1", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812865481117858/5_Artist_promo_Racc_5_1.png?ex=67f8d7eb&is=67f7866b&hm=d7db232e0f00990f3b4e48c55992c3efdc469b2a68c956fe589a16a7fb67ecfa&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
-            { id: "racc2", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866160459786/5_Artist_promo_Racc_5_2.png?ex=67f8d7eb&is=67f7866b&hm=72e36c367d08b5e2a41ca660bd4f4ae318615f22105a32887e2d45be3569751d&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
-            { id: "queenmocha", name: "Queen Mocha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866756055040/6_Artist_promo_Mummy_6.png?ex=67f8d7eb&is=67f7866b&hm=0c6ebbe07a0b28a4dd482d5ed61edb77fb6c304897a3f279c42a739cf9785b69&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/QueenMochaBun" },
-            { id: "taffy", name: "Taffy", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812867406430309/7_Artist_promo_Taffy_7.png?ex=67f8d7eb&is=67f7866b&hm=ec92b15803f63a0cf9e5b51115dc5c3e098fcd7b85d2a3a0cbeb4c18d71a8618&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://t.me/taffysart" },
-            { id: "spoopicus", name: "Spoopicus", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868077256765/8_Artist_promo_Max_8.png?ex=67f8d7eb&is=67f7866b&hm=c47c62941768f2edc069f0af8dc934cc3bc4552240f2f5b8faf128639da97e57&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/spoopicus/" },
-            { id: "lemoncurdll", name: "Lemoncurdll", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868572315831/9_Artist_promo_Lemon_9.png?ex=67f8d7eb&is=67f7866b&hm=16a469bee29b8c1cf915c1b3a98eee8df41045ca07f537c50d303ed75a318e6a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/llemoncurdll" },
-            { id: "rainard", name: "Rainard", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812898964373584/11_Artist_promo_Foxo_11.png?ex=67f8d7f3&is=67f78673&hm=2b6a36c997e42780735fb4b4e1021bb5535a9a28ffe325164ec89da656c0a339&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "#" }, // Placeholder kept
-            { id: "tonfoxsu", name: "Tonfoxsu", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812899513700452/12_Artist_promo_tofu_12.png?ex=67f8d7f3&is=67f78673&hm=ca6a5a1e63366f57f3a5753124fa669625b143295d9497ff9b1d3f3a01a59b76&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://tonfoxsu.carrd.co" },
-            { id: "cattoforge", name: "The Catto Forge", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900054634587/13_Artist_promo_maine_13.png?ex=67f8d7f3&is=67f78673&hm=b34f03117b63bbc939272c1d87746eefd53ba1ef97bb7147693b6afff16fbcad&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://thecattoforge.carrd.co" },
-            { id: "roo", name: "Roo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900738564168/14_Artist_promo_Roo_14.png?ex=67f8d7f3&is=67f78673&hm=f160400a9e88d4254dd7fbe53037bf92ba99bbb0949aa21e02a774b6acea4e96&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://featheri-roo.carrd.co/#" },
-            { id: "oomanagarcha", name: "Oomanagarcha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901321310372/16_Artist_promo_Ooma_16.png?ex=67f8d7f3&is=67f78673&hm=d74fda53c5422e93a200762010d9d285d770452b465301822556a2bda3dea1c2&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/oomanagarcha" },
-            { id: "astralembers", name: "Astral Embers", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901925552199/17_Artist_promo_Ember_17.png?ex=67f8d7f3&is=67f78673&hm=06b7702a5d29ab69f93e969459562000ed4a13a1f4340f794a789babe93ac6bd&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/_.astral.embers._/" },
-            { id: "jasper", name: "Jasper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812902395318341/19_Artist_Promo_Jasper_19.png?ex=67f8d7f4&is=67f78674&hm=bc75c9a48c10fe20f0213918572c4bcf9633bef66874ea0038e0d5ee96a59d18&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://bsky.app/profile/jaspersartvault.bsky.social" }
-        ];
+        const guestArtistData = [ { id: "zylith", name: "Zylith", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812829753905173/4_Artist_promo_Zylith_4.png?ex=67f8d7e2&is=67f78662&hm=b7ac68846e05b9024a50c960d2cfa9cde65bc51c6f8dac0946bff2ca70ad3ca3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://nogitsune-shrine.carrd.co" }, { id: "casper", name: "Casper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830299422871/1_Artist_promo_Casper_1.png?ex=67f8d7e2&is=67f78662&hm=9ba97b6f76042b11067cceeff16b5504d8f39a2851c396fb143c114f1b0566b0&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/casperclawell" }, { id: "bakaroni1", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812830748217404/2_Artist_promo_Bakaroni_2_1.png?ex=67f8d7e2&is=67f78662&hm=489c85cf5fe95a3cd4214246cfb85ed230e439dba974e5ad00b5ec0191e303e3&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" }, { id: "bakaroni2", name: "Bakaroni", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831473828001/2_Artist_promo_Bakaroni_2_2.png?ex=67f8d7e3&is=67f78663&hm=00803eaa5f8df3a294a8b89d3eee5898d6a8e7b9c658acce07662113b1df1255&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/bakaroni.san/" }, { id: "turtike", name: "Turtike", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812831947788391/3_Artist_promo_Turtike.png?ex=67f8d7e3&is=67f78663&hm=d1b5e5e7c2089c037baf39f05c250107f71849d099dd6e856a9e1484f469029a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://x.com/turtike/" }, { id: "northboyo", name: "Northboyo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812864797442098/10_Artist_promo_North_10.png?ex=67f8d7eb&is=67f7866b&hm=936a4a2289c1b8c3bf5e125a5cce5ab2c91620fbb2aea4508309757540254d47&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/northboyo/" }, { id: "racc1", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812865481117858/5_Artist_promo_Racc_5_1.png?ex=67f8d7eb&is=67f7866b&hm=d7db232e0f00990f3b4e48c55992c3efdc469b2a68c956fe589a16a7fb67ecfa&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" }, { id: "racc2", name: "Reckless Racoon Studios", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866160459786/5_Artist_promo_Racc_5_2.png?ex=67f8d7eb&is=67f7866b&hm=72e36c367d08b5e2a41ca660bd4f4ae318615f22105a32887e2d45be3569751d&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" }, { id: "queenmocha", name: "Queen Mocha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812866756055040/6_Artist_promo_Mummy_6.png?ex=67f8d7eb&is=67f7866b&hm=0c6ebbe07a0b28a4dd482d5ed61edb77fb6c304897a3f279c42a739cf9785b69&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/QueenMochaBun" }, { id: "taffy", name: "Taffy", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812867406430309/7_Artist_promo_Taffy_7.png?ex=67f8d7eb&is=67f7866b&hm=ec92b15803f63a0cf9e5b51115dc5c3e098fcd7b85d2a3a0cbeb4c18d71a8618&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://t.me/taffysart" }, { id: "spoopicus", name: "Spoopicus", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868077256765/8_Artist_promo_Max_8.png?ex=67f8d7eb&is=67f7866b&hm=c47c62941768f2edc069f0af8dc934cc3bc4552240f2f5b8faf128639da97e57&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/spoopicus/" }, { id: "lemoncurdll", name: "Lemoncurdll", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812868572315831/9_Artist_promo_Lemon_9.png?ex=67f8d7eb&is=67f7866b&hm=16a469bee29b8c1cf915c1b3a98eee8df41045ca07f537c50d303ed75a318e6a&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/llemoncurdll" }, { id: "rainard", name: "Rainard", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812898964373584/11_Artist_promo_Foxo_11.png?ex=67f8d7f3&is=67f78673&hm=2b6a36c997e42780735fb4b4e1021bb5535a9a28ffe325164ec89da656c0a339&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "#" }, { id: "tonfoxsu", name: "Tonfoxsu", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812899513700452/12_Artist_promo_tofu_12.png?ex=67f8d7f3&is=67f78673&hm=ca6a5a1e63366f57f3a5753124fa669625b143295d9497ff9b1d3f3a01a59b76&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://tonfoxsu.carrd.co" }, { id: "cattoforge", name: "The Catto Forge", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900054634587/13_Artist_promo_maine_13.png?ex=67f8d7f3&is=67f78673&hm=b34f03117b63bbc939272c1d87746eefd53ba1ef97bb7147693b6afff16fbcad&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://thecattoforge.carrd.co" }, { id: "roo", name: "Roo", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812900738564168/14_Artist_promo_Roo_14.png?ex=67f8d7f3&is=67f78673&hm=f160400a9e88d4254dd7fbe53037bf92ba99bbb0949aa21e02a774b6acea4e96&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://featheri-roo.carrd.co/#" }, { id: "oomanagarcha", name: "Oomanagarcha", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901321310372/16_Artist_promo_Ooma_16.png?ex=67f8d7f3&is=67f78673&hm=d74fda53c5422e93a200762010d9d285d770452b465301822556a2bda3dea1c2&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://linktr.ee/oomanagarcha" }, { id: "astralembers", name: "Astral Embers", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812901925552199/17_Artist_promo_Ember_17.png?ex=67f8d7f3&is=67f78673&hm=06b7702a5d29ab69f93e969459562000ed4a13a1f4340f794a789babe93ac6bd&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://www.instagram.com/_.astral.embers._/" }, { id: "jasper", name: "Jasper", imageUrl: "https://media.discordapp.net/attachments/1003164365819752480/1359812902395318341/19_Artist_Promo_Jasper_19.png?ex=67f8d7f4&is=67f78674&hm=bc75c9a48c10fe20f0213918572c4bcf9633bef66874ea0038e0d5ee96a59d18&=&format=webp&quality=lossless&width=625&height=948", platformUrl: "https://bsky.app/profile/jaspersartvault.bsky.social" } ];
 
         // --- Card Generation Functions ---
         function shuffleArray(array) { for (let i=array.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [array[i], array[j]]=[array[j], array[i]];} return array;}
@@ -388,11 +373,10 @@
         function calculateScrollDimensions() { const rS=document.documentElement.style; const bS=getComputedStyle(document.body); const bgH=bS.getPropertyValue('--color-bg').trim(); if(bgH.startsWith('#')){ const h=bgH.substring(1); const r=parseInt(h.substring(0,2),16)||26; const g=parseInt(h.substring(2,4),16)||26; const b=parseInt(h.substring(4,6),16)||26; rS.setProperty('--color-bg-rgb',`${r},${g},${b}`);} if(vColumn){ const vC=vColumn.querySelectorAll('.card-container'); if(vC.length>=numUniqueDesigns){ const cH=vC[0].offsetHeight; const g=parseFloat(getComputedStyle(vColumn).gap)||0; const sH=(cH+g)*numUniqueDesigns; rS.setProperty('--v-col-scroll-height',`${sH}px`);}} if(hTrackTop){ const hCT=hTrackTop.querySelectorAll('.card-container'); if(hCT.length>=numUniqueDesigns){ const cW=hCT[0].offsetWidth; const g=parseFloat(getComputedStyle(hTrackTop).gap)||0; const sW=(cW+g)*numUniqueDesigns; hTrackTop.style.width=`${sW*2}px`; if(hTrackBottom)hTrackBottom.style.width=`${sW*2}px`; rS.setProperty('--h-row-scroll-width',`${sW}px`);}}}
 
         // --- Populate Background Floating Cards (Optimized for Mobile) ---
-        function populateBackgroundFloaters(container, dataArray, cardCount = 16) {
+        function populateBackgroundFloaters(container, dataArray, desktopCount = 16, mobileCount = 4) { // Added explicit mobile count
             if (!container) return;
             const isMobile = window.innerWidth <= 768;
-            // Drastically reduce count on mobile
-            const numFloatingCards = isMobile ? 4 : cardCount; // e.g., only 4 on mobile
+            const numFloatingCards = isMobile ? mobileCount : desktopCount; // Use specific counts
             let floatingHTML = '';
             const shuffledBgCards = shuffleArray([...dataArray]);
 
@@ -407,12 +391,9 @@
                 const iRY = (Math.random() - 0.5) * 40;
                 const iS = Math.random() * 0.2 + 0.9;
                 const style = `top:${rT}%; left:${rL}%; animation-duration:${rDu}s; animation-delay:${rDe}s; transform:rotateX(${iRX}deg) rotateY(${iRY}deg) scale(${iS});`;
-                // Use simple div with background image for floaters (no flip needed)
                 floatingHTML += `
                     <div class="floating-card-container" style="${style}">
-                        <div class="card" style="background-image: url('${cardData.imageUrl}'); background-size: cover; background-position: center;">
-                           <!-- No front/back needed for simple floater -->
-                        </div>
+                        <div class="card" style="background-image: url('${cardData.imageUrl}'); background-size: cover; background-position: center;"></div>
                     </div>`;
             }
             container.innerHTML = floatingHTML;
@@ -427,26 +408,24 @@
             zoomedImg.src = artistData.img;
             zoomedImg.alt = `Guest artist card by ${artistData.name}`;
             zoomedArtistName.textContent = artistData.name;
-            zoomedArtistLink.href = artistData.url || "#"; // Use # as fallback if url missing
+            zoomedArtistLink.href = artistData.url || "#";
             zoomedArtistLink.textContent = "Artist's Socials";
 
-            // Show button if URL exists (even if '#')
             if (artistData.url) {
                 zoomedArtistInfo.style.display = 'flex';
                 zoomedArtistLink.style.display = 'inline-flex';
                 zoomedArtistLink.setAttribute('aria-label', `Visit ${artistData.name}'s socials`);
 
-                // Reset opacity/cursor for real links (now that URLs are provided)
-                if (artistData.url === "#") { // Keep placeholder styling if '#' remains
+                if (artistData.url === "#") {
                    zoomedArtistLink.style.opacity = 0.7;
                    zoomedArtistLink.style.cursor = 'default';
                 } else {
-                   zoomedArtistLink.style.opacity = 1; // Full opacity for real links
+                   zoomedArtistLink.style.opacity = 1;
                    zoomedArtistLink.style.cursor = 'pointer';
                 }
             } else {
                 zoomedArtistInfo.style.display = 'flex';
-                zoomedArtistLink.style.display = 'none'; // Hide button if URL is truly missing
+                zoomedArtistLink.style.display = 'none';
             }
 
             document.body.classList.add('zoomed-open');
@@ -466,16 +445,13 @@
         const SNAP_DELAY = 800;
         let isHeroPromptHidden = false;
         let isArtistPromptHidden = false;
-        let throttleTimer = false; // Timer flag for throttling
+        let throttleTimer = false;
 
-        // Separate function to handle prompt visibility based on scroll
         function updatePromptVisibility() {
              if (!guestArtistsSection || !artistScrollPrompt) return;
-
              const currentScroll = window.scrollY;
              const viewportHeight = window.innerHeight;
              const guestArtistsTop = guestArtistsSection.offsetTop;
-
              const artistPromptHideThreshold = guestArtistsTop - viewportHeight * 0.7;
              const artistPromptShowThreshold = guestArtistsTop - viewportHeight * 0.8;
 
@@ -500,18 +476,11 @@
         }
 
         function handleWheelScroll(event) {
-            if (isSnapping) {
-                event.preventDefault();
-                return;
-            }
+            if (isSnapping) { event.preventDefault(); return; }
 
-            // Throttle the prompt visibility check during normal scroll
             if (!throttleTimer) {
                  throttleTimer = true;
-                 setTimeout(() => {
-                     updatePromptVisibility();
-                     throttleTimer = false;
-                 }, 100); // Check visibility at most every 100ms
+                 setTimeout(() => { updatePromptVisibility(); throttleTimer = false; }, 100);
              }
 
             const currentScroll = window.scrollY;
@@ -558,8 +527,27 @@
         }
 
         // --- Initialization ---
-        let resizeTimer; function handleResize() { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { calculateScrollDimensions(); populateBackgroundFloaters(purchaseBgFloater, cardsData); populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12); updatePromptVisibility(); }, 250);}
-        let ready = false; function onReady() { if (ready) return; ready = true; populateTracks(); calculateScrollDimensions(); populateGuestArtists(); populateBackgroundFloaters(purchaseBgFloater, cardsData); populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 4); // Further reduced guest floaters for mobile safety
+        let resizeTimer;
+        function handleResize() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                calculateScrollDimensions();
+                // Update floater counts based on new size
+                populateBackgroundFloaters(purchaseBgFloater, cardsData, 16, 4); // Re-pass counts
+                populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3); // Re-pass counts (e.g., 3 for guest mobile)
+                updatePromptVisibility();
+            }, 250);
+        }
+        let ready = false;
+        function onReady() {
+            if (ready) return;
+            ready = true;
+            populateTracks();
+            calculateScrollDimensions();
+            populateGuestArtists();
+            // Pass mobile counts explicitly for initial load too
+            populateBackgroundFloaters(purchaseBgFloater, cardsData, 16, 4);
+            populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3); // e.g., 12 desktop, 3 mobile
 
             updatePromptVisibility(); // Set initial prompt states
 
@@ -570,7 +558,7 @@
         }
 
         window.addEventListener('load', onReady);
-        document.addEventListener('DOMContentLoaded', () => { setTimeout(onReady, 200); });
+        document.addEventListener('DOMContentLoaded', () => { setTimeout(onReady, 200); }); // Fallback
 
     </script>
 
