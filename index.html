@@ -25,11 +25,25 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { min-height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--color-bg); color: var(--color-text-light); position: relative; }
-        body.zoomed-open { overflow: hidden; } /* Prevent background scroll */
+        body {
+            min-height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text-light);
+            position: relative;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+        body.zoomed-open {
+             /* When zoomed view is open, prevent ALL scrolling on body */
+             overflow: hidden;
+        }
         body::before { content: ''; position: fixed; inset: 0; background-image: repeating-linear-gradient(45deg, var(--color-checker-dark) 25%, transparent 25%, transparent 75%, var(--color-checker-dark) 75%, var(--color-checker-dark)), repeating-linear-gradient( -45deg, var(--color-checker-dark) 25%, var(--color-checker-light) 25%, var(--color-checker-light) 75%, var(--color-checker-dark) 75%, var(--color-checker-dark)); background-size: 40px 40px; opacity: 0.3; z-index: -1; }
 
-        .main-wrapper { /* Structural */ }
+        .main-wrapper {
+            /* Structural */
+            overflow-x: hidden; /* Add overflow hidden here too */
+            position: relative; /* Ensure it establishes a positioning context */
+        }
 
         /* --- Hero Section --- */
         .hero-section { height: 100vh; width: 100%; position: relative; overflow: hidden; z-index: 20; }
@@ -163,25 +177,15 @@
 
         /* --- MOBILE OPTIMIZATIONS & RESPONSIVENESS --- */
         @media (max-width: 768px) {
-             /* Disable/Reduce BG Animations */
+            /* Disable/Reduce BG Animations */
             .purchase-section::before,
             .purchase-section::after,
-            .guest-artists-section::before, /* Also disable guest section patterns if needed */
-            .guest-artists-section::after { /* Disable potential future guest patterns */
-                 animation: none !important;
-             }
-            .floating-card-container {
-                 /* Disable floating animation */
-                 animation: none !important;
-                 /* Remove blur */
-                 filter: none !important;
-                 /* Further reduce opacity maybe */
-                 /* opacity: 0.05 !important; */
-            }
-            /* Uncomment below to completely hide floaters on mobile */
+            .guest-artists-section::before,
+            .guest-artists-section::after { animation: none !important; }
+            .floating-card-container { animation: none !important; filter: none !important; opacity: 0.08 !important; }
             /* #purchase-bg-cards, #guest-artists-bg-cards { display: none; } */
 
-             /* Existing Responsive Styles */
+            /* Existing Responsive Styles */
             .purchase-display-area { flex-direction: column; gap: 40px; }
             .display-left { width: 80%; max-width: 400px; margin-bottom: 20px; gap: 15px; }
             .box-art-container { margin-bottom: 40px; max-width: 100%;}
@@ -201,16 +205,17 @@
             .guest-card-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 25px; }
             .guest-card { max-width: 180px; }
 
-            /* Zoomed View Responsive */
-            .zoomed-artist-content { flex-direction: column; gap: 20px; max-width: 95vw; max-height: 90vh; padding: 10px; }
-            .zoomed-artist-image { max-width: 80vw; max-height: 55vh; }
-            .zoomed-artist-info { align-items: center; max-width: 80vw; text-align: center; gap: 15px; }
-            .zoomed-artist-name { font-size: 2rem; }
-            .zoomed-artist-link { font-size: 1rem; padding: 10px 20px; }
-            .zoomed-close-button { top: 5px; right: 5px; width: 30px; height: 30px; font-size: 1.5rem; line-height: 28px;}
+            /* Zoomed View Responsive - Mobile Layout Fixes */
+            .zoomed-artist-overlay { padding: 10px; width: 100%; height: 100%; overflow: hidden; }
+            .zoomed-artist-content { flex-direction: column; gap: 15px; max-width: 95vw; max-height: 90vh; padding: 15px; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+            .zoomed-artist-image { max-width: 85vw; max-height: 50vh; width: auto; height: auto; object-fit: contain; flex-shrink: 0; }
+            .zoomed-artist-info { align-items: center; max-width: 90%; text-align: center; gap: 15px; width: 100%; flex-shrink: 1; }
+            .zoomed-artist-name { font-size: 1.8rem; word-break: break-word; }
+            .zoomed-artist-link { font-size: 1rem; padding: 10px 20px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .zoomed-close-button { top: 5px; right: 5px; width: 30px; height: 30px; font-size: 1.5rem; line-height: 28px; z-index: 10; }
         }
 
-        @media (max-width: 480px) { /* Phones */
+        @media (max-width: 480px) {
             /* Hero/Purchase Responsive */
             :root { --card-width: 120px; --card-height: 182px; --h-row-gap: 15px; --v-col-gap: 15px;}
             .game-logo { width: 180px; top: 20px;}
@@ -225,9 +230,9 @@
             .purchase-content > p { font-size: 1rem; }
             .buy-button { padding: 14px 35px; font-size: 1.1rem; }
             .button-link { margin-top: 25px; }
-             /* Artist scroll prompt responsive */
-             .artist-scroll-prompt { bottom: 25px; font-size: 1rem;}
-             .artist-scroll-prompt::after { font-size: 1.2rem; margin-top: 2px;}
+            /* Artist scroll prompt responsive */
+            .artist-scroll-prompt { bottom: 25px; font-size: 1rem;}
+            .artist-scroll-prompt::after { font-size: 1.2rem; margin-top: 2px;}
 
             /* Guest Artist Responsive */
             .guest-artists-prompt-img { max-width: 280px; margin-bottom: 30px;}
@@ -235,8 +240,9 @@
             .guest-card { max-width: 150px; }
 
             /* Zoomed View Responsive */
-            .zoomed-artist-image { max-height: 50vh; }
-            .zoomed-artist-name { font-size: 1.6rem; }
+             .zoomed-artist-content { padding: 10px; gap: 10px; }
+            .zoomed-artist-image { max-height: 45vh; }
+            .zoomed-artist-name { font-size: 1.4rem; }
             .zoomed-artist-link { font-size: 0.9rem; padding: 8px 15px;}
         }
 
@@ -295,7 +301,7 @@
                       </a>
                  </div>
             </div>
-            <!-- NEW: Artist Scroll Prompt -->
+            <!-- Artist Scroll Prompt -->
             <div class="artist-scroll-prompt" id="artist-scroll-prompt">Artist Cards</div>
         </section>
 
@@ -373,10 +379,10 @@
         function calculateScrollDimensions() { const rS=document.documentElement.style; const bS=getComputedStyle(document.body); const bgH=bS.getPropertyValue('--color-bg').trim(); if(bgH.startsWith('#')){ const h=bgH.substring(1); const r=parseInt(h.substring(0,2),16)||26; const g=parseInt(h.substring(2,4),16)||26; const b=parseInt(h.substring(4,6),16)||26; rS.setProperty('--color-bg-rgb',`${r},${g},${b}`);} if(vColumn){ const vC=vColumn.querySelectorAll('.card-container'); if(vC.length>=numUniqueDesigns){ const cH=vC[0].offsetHeight; const g=parseFloat(getComputedStyle(vColumn).gap)||0; const sH=(cH+g)*numUniqueDesigns; rS.setProperty('--v-col-scroll-height',`${sH}px`);}} if(hTrackTop){ const hCT=hTrackTop.querySelectorAll('.card-container'); if(hCT.length>=numUniqueDesigns){ const cW=hCT[0].offsetWidth; const g=parseFloat(getComputedStyle(hTrackTop).gap)||0; const sW=(cW+g)*numUniqueDesigns; hTrackTop.style.width=`${sW*2}px`; if(hTrackBottom)hTrackBottom.style.width=`${sW*2}px`; rS.setProperty('--h-row-scroll-width',`${sW}px`);}}}
 
         // --- Populate Background Floating Cards (Optimized for Mobile) ---
-        function populateBackgroundFloaters(container, dataArray, desktopCount = 16, mobileCount = 4) { // Added explicit mobile count
+        function populateBackgroundFloaters(container, dataArray, desktopCount = 16, mobileCount = 4) {
             if (!container) return;
             const isMobile = window.innerWidth <= 768;
-            const numFloatingCards = isMobile ? mobileCount : desktopCount; // Use specific counts
+            const numFloatingCards = isMobile ? mobileCount : desktopCount;
             let floatingHTML = '';
             const shuffledBgCards = shuffleArray([...dataArray]);
 
@@ -532,9 +538,9 @@
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
                 calculateScrollDimensions();
-                // Update floater counts based on new size
-                populateBackgroundFloaters(purchaseBgFloater, cardsData, 16, 4); // Re-pass counts
-                populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3); // Re-pass counts (e.g., 3 for guest mobile)
+                // Update floater counts based on new size, passing mobile counts
+                populateBackgroundFloaters(purchaseBgFloater, cardsData, 16, 4);
+                populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3);
                 updatePromptVisibility();
             }, 250);
         }
@@ -545,9 +551,9 @@
             populateTracks();
             calculateScrollDimensions();
             populateGuestArtists();
-            // Pass mobile counts explicitly for initial load too
+            // Explicitly pass desktop and mobile counts for initial load
             populateBackgroundFloaters(purchaseBgFloater, cardsData, 16, 4);
-            populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3); // e.g., 12 desktop, 3 mobile
+            populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3); // Reduced mobile guest floaters
 
             updatePromptVisibility(); // Set initial prompt states
 
