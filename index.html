@@ -3,10 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10 Tail Tangle - Pre-Order Now!</title>
-    <!-- Updated Favicon Path -->
-    <link rel="icon" type="image/png" href="images/favicon.png">
+    <title>10 Tail Tangle - The Card Game</title>
 
+    <!-- === SEO META TAGS START === -->
+    <meta name="description" content="Pre-order 10 Tail Tangle, the fun card game where you compete to chain 10 tails! Features unique gameplay and amazing guest artist cards.">
+    <meta name="keywords" content="10 Tail Tangle, Ten Tail Tangle, card game, pre-order, furry card game, tail tangle, Miro, guest artists">
+    <meta property="og:title" content="10 Tail Tangle - The Card Game">
+    <meta property="og:description" content="Pre-order 10 Tail Tangle! Compete to chain 10 tails in this unique card game featuring guest artists.">
+    <!-- Using actual domain and boxart.webp -->
+    <meta property="og:image" content="https://www.10tailtangle.com/images/boxart.webp">
+    <meta property="og:url" content="https://www.10tailtangle.com/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="10 Tail Tangle - The Card Game">
+    <meta name="twitter:description" content="Pre-order 10 Tail Tangle! Compete to chain 10 tails in this unique card game featuring guest artists.">
+    <!-- Using actual domain and boxart.webp -->
+    <meta name="twitter:image" content="https://www.10tailtangle.com/images/boxart.webp">
+    <!-- <meta name="twitter:site" content="@yourtwitterhandle"> -->
+    <!-- === SEO META TAGS END === -->
+
+    <!-- Updated Favicon Path to WEBP -->
+    <link rel="icon" type="image/webp" href="images/favicon.webp">
 
     <style>
         /* --- Global Styles & Theme --- */
@@ -33,23 +50,17 @@
             position: relative;
             overflow-x: hidden; /* Prevent horizontal scrolling */
         }
-        body.zoomed-open {
-             /* When zoomed view is open, prevent ALL scrolling on body */
-             overflow: hidden;
-        }
+        body.zoomed-open { overflow: hidden; }
         body::before { content: ''; position: fixed; inset: 0; background-image: repeating-linear-gradient(45deg, var(--color-checker-dark) 25%, transparent 25%, transparent 75%, var(--color-checker-dark) 75%, var(--color-checker-dark)), repeating-linear-gradient( -45deg, var(--color-checker-dark) 25%, var(--color-checker-light) 25%, var(--color-checker-light) 75%, var(--color-checker-dark) 75%, var(--color-checker-dark)); background-size: 40px 40px; opacity: 0.3; z-index: -1; }
 
-        .main-wrapper {
-            /* Structural */
-            overflow-x: hidden; /* Add overflow hidden here too */
-            position: relative; /* Ensure it establishes a positioning context */
-        }
+        .main-wrapper { overflow-x: hidden; position: relative; }
 
         /* --- Hero Section --- */
         .hero-section { height: 100vh; width: 100%; position: relative; overflow: hidden; z-index: 20; }
         .hero-section::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px; background: linear-gradient(to top, rgba(var(--color-bg-rgb), 0.8) 0%, rgba(var(--color-bg-rgb), 0.5) 40%, transparent 100%); z-index: 40; pointer-events: none; opacity: 0.9; transition: opacity 0.5s ease-out; will-change: opacity; }
         .hero-section.prompt-hidden::after { opacity: 0; }
         .game-logo { position: absolute; top: 30px; left: 50%; transform: translateX(-50%); width: 250px; height: auto; z-index: 55; opacity: 0.9; transition: opacity 0.5s ease-out; will-change: opacity; }
+        h1.game-logo { margin: 0; padding: 0; line-height: 0; }
         .game-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
         .hero-section.prompt-hidden .game-logo { /* Keep visible */ }
         .game-logo--purchase { position: relative; transform: none; left: auto; top: auto; width: 280px; margin: 0 auto 35px auto; opacity: 1; display: block; }
@@ -72,8 +83,8 @@
         .card-container:hover .card { transform: rotateY(180deg); }
         .card-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 8px; display: flex; justify-content: center; align-items: center; overflow: hidden; background-color: var(--color-card-front-bg); }
         .card-front { color: var(--color-text-dark); background-size: cover; background-position: center; background-repeat: no-repeat; }
-        /* Updated Card Back Path */
-        .card-back { background-color: var(--color-card-back-bg); transform: rotateY(180deg); background-image: url('images/cardback.png'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        /* Updated Card Back Path to WEBP */
+        .card-back { background-color: var(--color-card-back-bg); transform: rotateY(180deg); background-image: url('images/cardback.webp'); background-size: cover; background-position: center; background-repeat: no-repeat; }
         .card-back span { display: none; }
         .scroll-prompt { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); width: auto; text-align: center; color: var(--color-accent); font-size: 1.4rem; font-weight: 500; opacity: 1; z-index: 60; cursor: default; transition: opacity 0.5s ease-out; will-change: opacity; text-shadow: 0 0 10px rgba(0, 0, 0, 1); }
         .scroll-prompt::after { content: '▼'; display: block; margin-top: 8px; font-size: 1.6rem; animation: bounce 2s infinite ease-in-out; line-height: 1; }
@@ -114,8 +125,8 @@
         .promo-card-container:hover .promo-card { transform: rotateY(180deg); }
         .promo-card-face { position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 6px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.4); background-color: var(--color-card-back-bg); display: flex; justify-content: center; align-items: center; }
         .promo-card-front {}
-        /* Updated Promo Card Back Path */
-        .promo-card-back { transform: rotateY(180deg); background-image: url('images/cardback.png'); background-size: cover; background-position: center; background-repeat: no-repeat; }
+        /* Updated Promo Card Back Path to WEBP */
+        .promo-card-back { transform: rotateY(180deg); background-image: url('images/cardback.webp'); background-size: cover; background-position: center; background-repeat: no-repeat; }
         .promo-card-image { display: block; width: 100%; height: 100%; object-fit: cover; }
          .promo-back-logo { display: none; }
         .promo-text-image {
@@ -135,18 +146,9 @@
         .buy-button:hover { background-image: linear-gradient(45deg, #ffffff 0%, var(--color-accent) 100%); transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2); }
         .buy-button:active { transform: translateY(-1px) scale(0.98); box-shadow: 0 3px 10px rgba(0,0,0,0.3); }
 
-        /* Artist Scroll Prompt (inside Purchase Section) */
-        .artist-scroll-prompt {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            width: auto; text-align: center; color: var(--color-text-medium);
-            font-size: 1.1rem; font-weight: 500; opacity: 1; z-index: 5; cursor: default;
-            transition: opacity 0.5s ease-out; will-change: opacity;
-            text-shadow: 0 0 6px rgba(0, 0, 0, 0.8); pointer-events: none;
-        }
-        .artist-scroll-prompt::after {
-            content: '▼'; display: block; margin-top: 4px; font-size: 1.3rem;
-            animation: bounce 2s infinite ease-in-out; line-height: 1; animation-delay: -0.5s;
-        }
+        /* Artist Scroll Prompt */
+        .artist-scroll-prompt { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: auto; text-align: center; color: var(--color-text-medium); font-size: 1.1rem; font-weight: 500; opacity: 1; z-index: 5; cursor: default; transition: opacity 0.5s ease-out; will-change: opacity; text-shadow: 0 0 6px rgba(0, 0, 0, 0.8); pointer-events: none; }
+        .artist-scroll-prompt::after { content: '▼'; display: block; margin-top: 4px; font-size: 1.3rem; animation: bounce 2s infinite ease-in-out; line-height: 1; animation-delay: -0.5s; }
         .artist-scroll-prompt.hidden { opacity: 0; }
 
         /* --- Guest Artists Section --- */
@@ -179,15 +181,8 @@
 
         /* --- MOBILE OPTIMIZATIONS & RESPONSIVENESS --- */
         @media (max-width: 768px) {
-             /* Disable/Reduce BG Animations */
-            .purchase-section::before,
-            .purchase-section::after,
-            .guest-artists-section::before,
-            .guest-artists-section::after { animation: none !important; }
+            .purchase-section::before, .purchase-section::after, .guest-artists-section::before, .guest-artists-section::after { animation: none !important; }
             .floating-card-container { animation: none !important; filter: none !important; opacity: 0.08 !important; }
-            /* #purchase-bg-cards, #guest-artists-bg-cards { display: none; } */
-
-             /* Existing Responsive Styles */
             .purchase-display-area { flex-direction: column; gap: 40px; }
             .display-left { width: 80%; max-width: 400px; margin-bottom: 20px; gap: 15px; }
             .box-art-container { margin-bottom: 40px; max-width: 100%;}
@@ -196,18 +191,15 @@
             .promo-card-container:hover { transform: rotate(0deg) scale(1.05) translateZ(30px); }
             .promo-text-image { width: 150px; bottom: -10%; right: -10%; transform: translate(15%, calc(-220% - 8px)) rotate(5deg); }
             .display-right.purchase-content { flex-basis: auto; max-width: 90%; margin-top: 0; }
+            h1.game-logo { width: 200px; }
             .game-logo--purchase { width: 200px; margin-bottom: 25px; }
             .purchase-content > p { font-size: 1.1rem; margin-bottom: 30px; }
             .buy-button { padding: 16px 40px; font-size: 1.2rem; }
             .button-link { margin-top: 20px; }
-
-            /* Guest Artist Responsive */
             .guest-artists-section { padding: 60px 15px; }
             .guest-artists-prompt-img { max-width: 350px; margin-bottom: 40px; }
             .guest-card-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 25px; }
             .guest-card { max-width: 180px; }
-
-            /* Zoomed View Responsive - Mobile Layout Fixes */
             .zoomed-artist-overlay { padding: 10px; width: 100%; height: 100%; overflow: hidden; }
             .zoomed-artist-content { flex-direction: column; gap: 15px; max-width: 95vw; max-height: 90vh; padding: 15px; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
             .zoomed-artist-image { max-width: 85vw; max-height: 50vh; width: auto; height: auto; object-fit: contain; flex-shrink: 0; }
@@ -218,9 +210,8 @@
         }
 
         @media (max-width: 480px) {
-            /* Hero/Purchase Responsive */
             :root { --card-width: 120px; --card-height: 182px; --h-row-gap: 15px; --v-col-gap: 15px;}
-            .game-logo { width: 180px; top: 20px;}
+            h1.game-logo { width: 180px; top: 20px;}
             .scroll-prompt { font-size: 1.2rem; bottom: 25px;} .scroll-prompt::after { font-size: 1.4rem;}
             .purchase-section { padding: 50px 15px 100px 15px; }
             .purchase-display-area { gap: 30px; }
@@ -232,22 +223,16 @@
             .purchase-content > p { font-size: 1rem; }
             .buy-button { padding: 14px 35px; font-size: 1.1rem; }
             .button-link { margin-top: 25px; }
-            /* Artist scroll prompt responsive */
             .artist-scroll-prompt { bottom: 25px; font-size: 1rem;}
             .artist-scroll-prompt::after { font-size: 1.2rem; margin-top: 2px;}
-
-            /* Guest Artist Responsive */
             .guest-artists-prompt-img { max-width: 280px; margin-bottom: 30px;}
             .guest-card-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 20px; }
             .guest-card { max-width: 150px; }
-
-            /* Zoomed View Responsive */
-             .zoomed-artist-content { padding: 10px; gap: 10px; }
+            .zoomed-artist-content { padding: 10px; gap: 10px; }
             .zoomed-artist-image { max-height: 45vh; }
             .zoomed-artist-name { font-size: 1.4rem; }
             .zoomed-artist-link { font-size: 0.9rem; padding: 8px 15px;}
         }
-
     </style>
 </head>
 <body>
@@ -255,10 +240,11 @@
     <div class="main-wrapper">
         <!-- Hero Section -->
         <div class="hero-section" id="hero">
-            <div class="game-logo" id="hero-logo">
-                <!-- Updated Logo Path -->
-                <img src="images/titlelogo.png" alt="10 Tail Tangle Game Logo">
-            </div>
+            <!-- Updated logo to WEBP -->
+            <h1 class="game-logo" id="hero-logo">
+                <img src="images/titlelogo.webp" alt="10 Tail Tangle Game Logo">
+                <span style="position: absolute; left: -9999px; top: -9999px;">10 Tail Tangle - The Card Game</span>
+            </h1>
             <div class="scroll-wrapper" id="scroll-wrapper">
                 <div class="horizontal-row-container top"> <div class="horizontal-card-track" id="h-track-top"></div> </div>
                 <div class="card-column-container"> <div class="card-column" id="v-column"></div> </div>
@@ -270,24 +256,24 @@
         <!-- Purchase Section -->
         <section class="purchase-section" id="purchase">
             <div class="background-card-floater" id="purchase-bg-cards"></div>
+            <h2 style="position: absolute; left: -9999px; top: -9999px;">Pre-Order 10 Tail Tangle</h2>
             <div class="purchase-display-area">
                 <div class="display-left">
                      <div class="box-art-container">
                          <div class="box-art-interactive-container">
-                             <!-- Updated Box Art Path -->
-                             <img src="images/boxart.png" alt="10 Tail Tangle Game Box" class="box-art-image">
+                             <!-- Updated box art to WEBP -->
+                             <img src="images/boxart.webp" alt="10 Tail Tangle Game Box" class="box-art-image">
                          </div>
-                         <!-- !!! IMAGE NOT FOUND in provided list - Kept Discord Link !!! -->
-                         <!-- Replace with "images/your-promo-text-filename.png" when available -->
-                        <img src="https://media.discordapp.net/attachments/1003164365819752480/1359784664906338405/preorder_bonus.png?ex=67f8bda7&is=67f76c27&hm=ba95e07c0ae6763cb0077c195593482ccdd43a067adc10506ffc6d52fdfd438f&=&format=webp&quality=lossless" alt="Preorder Bonus!" class="promo-text-image">
+                         <!-- Updated promo text image to local WEBP -->
+                        <img src="images/preorderbonus.webp" alt="Preorder Bonus for 10 Tail Tangle!" class="promo-text-image">
                          <div class="promo-card-container">
                               <div class="promo-card">
                                   <div class="promo-card-face promo-card-front">
-                                      <!-- Updated Promo Card Path -->
-                                      <img src="images/miropromo.png" alt="Pre-order Promo Card - Miro Go Fetch" class="promo-card-image">
+                                      <!-- Updated promo card to WEBP -->
+                                      <img src="images/miropromo.webp" alt="Pre-order Promo Card - Miro Go Fetch" class="promo-card-image">
                                   </div>
                                   <div class="promo-card-face promo-card-back">
-                                       <!-- Background image set in CSS -->
+                                       <!-- Background image updated in CSS -->
                                   </div>
                               </div>
                          </div>
@@ -295,8 +281,8 @@
                  </div>
                  <div class="display-right purchase-content">
                       <div class="game-logo game-logo--purchase">
-                         <!-- Updated Logo Path -->
-                         <img src="images/titlelogo.png" alt="10 Tail Tangle Game Logo">
+                         <!-- Updated purchase logo to WEBP -->
+                         <img src="images/titlelogo.webp" alt="10 Tail Tangle Game Logo">
                       </div>
                       <p>Compete to be the first to get 10 Tails in a chain! With the help of your cards, create fun tail combos to get an advantage over others!</p>
                       <a href="https://mofumirostore.square.site/product/ten-tail-tangle-preorder-/43" target="_blank" rel="noopener noreferrer" class="button-link">
@@ -304,7 +290,6 @@
                       </a>
                  </div>
             </div>
-            <!-- Artist Scroll Prompt -->
             <div class="artist-scroll-prompt" id="artist-scroll-prompt">Artist Cards</div>
         </section>
 
@@ -312,8 +297,9 @@
         <section class="guest-artists-section" id="guest-artists">
             <div class="guest-artists-bg-floater" id="guest-artists-bg-cards"></div>
             <div class="guest-artists-container">
-                 <!-- Updated Artist Prompt Path -->
-                <img src="images/artistcards.png"
+                <h2 style="position: absolute; left: -9999px; top: -9999px;">Guest Artist Cards</h2>
+                 <!-- Updated Artist Prompt Path to WEBP -->
+                <img src="images/artistcards.webp"
                      alt="Artist Cards - Click to View"
                      class="guest-artists-prompt-img"
                      loading="lazy">
@@ -329,7 +315,7 @@
     <div id="zoomed-artist-view" class="zoomed-artist-overlay">
         <div class="zoomed-artist-content">
              <button class="zoomed-close-button" aria-label="Close zoomed view">&times;</button>
-            <img id="zoomed-img" src="" alt="Guest Artist Card" class="zoomed-artist-image">
+            <img id="zoomed-img" src="" alt="Guest Artist Card" class="zoomed-artist-image"> <!-- src set by JS -->
             <div id="zoomed-artist-info" class="zoomed-artist-info">
                 <h3 id="zoomed-artist-name" class="zoomed-artist-name">Artist Name</h3>
                 <a id="zoomed-artist-link" href="#" target="_blank" rel="noopener noreferrer" class="zoomed-artist-link">
@@ -362,56 +348,57 @@
         const zoomedCloseButton = document.querySelector('.zoomed-close-button');
         const artistScrollPrompt = document.getElementById('artist-scroll-prompt');
 
-        // --- Card Data (Main Game) --- UPDATED PATHS ---
+        // --- Card Data (Main Game) --- UPDATED PATHS TO WEBP ---
         const numUniqueDesigns = 20;
         const cardsData = [
-            { id: 1, title: "Dumpster Diving", imageUrl: "images/dumpsterdiving.png" },
-            { id: 2, title: "Reverse", imageUrl: "images/reverse.png" },
-            { id: 3, title: "Sneaky Peak", imageUrl: "images/sneakypeak.png" },
-            { id: 4, title: "Tail Serum", imageUrl: "images/tailserum.png" },
-            { id: 5, title: "Desperate Times", imageUrl: "images/desperatetimes.png" },
-            { id: 6, title: "Draw Two", imageUrl: "images/drawtwo.png" },
-            { id: 7, title: "Goober", imageUrl: "images/goober.png" },
-            { id: 8, title: "Tail Robbery", imageUrl: "images/tailrob.png" }, // Corrected filename
-            { id: 9, title: "Tail Snip", imageUrl: "images/tailsnip.png" },
-            { id: 10, title: "Tail Swap", imageUrl: "images/tailswap.png" },
-            { id: 11, title: "Tail Tangle", imageUrl: "images/tailtangle.png" },
-            { id: 12, title: "Tail Theft", imageUrl: "images/tailtheft.png" },
-            { id: 13, title: "Mirror", imageUrl: "images/mirror.png" },
-            { id: 14, title: "Nope", imageUrl: "images/nope.png" },
-            { id: 15, title: "Cat Tail", imageUrl: "images/cattail.png" },
-            { id: 16, title: "Dragon Tail", imageUrl: "images/dragontail.png" },
-            { id: 17, title: "Fox Tail", imageUrl: "images/foxtail.png" },
-            { id: 18, title: "Racoon Tail", imageUrl: "images/raccoontail.png" },
-            { id: 19, title: "Rainbow Tail", imageUrl: "images/rainbowtail.png" },
-            { id: 20, title: "Wolf Tail", imageUrl: "images/wolftail.png" }
+            { id: 1, title: "Dumpster Diving", imageUrl: "images/dumpsterdiving.webp" },
+            { id: 2, title: "Reverse", imageUrl: "images/reverse.webp" },
+            { id: 3, title: "Sneaky Peak", imageUrl: "images/sneakypeak.webp" },
+            { id: 4, title: "Tail Serum", imageUrl: "images/tailserum.webp" },
+            { id: 5, title: "Desperate Times", imageUrl: "images/desperatetimes.webp" },
+            { id: 6, title: "Draw Two", imageUrl: "images/drawtwo.webp" },
+            { id: 7, title: "Goober", imageUrl: "images/goober.webp" },
+            { id: 8, title: "Tail Robbery", imageUrl: "images/tailrob.webp" },
+            { id: 9, title: "Tail Snip", imageUrl: "images/tailsnip.webp" },
+            { id: 10, title: "Tail Swap", imageUrl: "images/tailswap.webp" },
+            { id: 11, title: "Tail Tangle", imageUrl: "images/tailtangle.webp" },
+            { id: 12, title: "Tail Theft", imageUrl: "images/tailtheft.webp" },
+            { id: 13, title: "Mirror", imageUrl: "images/mirror.webp" },
+            { id: 14, title: "Nope", imageUrl: "images/nope.webp" },
+            { id: 15, title: "Cat Tail", imageUrl: "images/cattail.webp" },
+            { id: 16, title: "Dragon Tail", imageUrl: "images/dragontail.webp" },
+            { id: 17, title: "Fox Tail", imageUrl: "images/foxtail.webp" },
+            { id: 18, title: "Racoon Tail", imageUrl: "images/raccoontail.webp" },
+            { id: 19, title: "Rainbow Tail", imageUrl: "images/rainbowtail.webp" },
+            { id: 20, title: "Wolf Tail", imageUrl: "images/wolftail.webp" }
         ];
 
-        // --- Guest Artist Data --- UPDATED PATHS & URLS ---
+        // --- Guest Artist Data --- UPDATED PATHS & URLS TO WEBP ---
         const guestArtistData = [
-            { id: "zylith", name: "Zylith", imageUrl: "images/zylithpromo.png", platformUrl: "https://nogitsune-shrine.carrd.co" },
-            { id: "casper", name: "Casper", imageUrl: "images/casperpromo.png", platformUrl: "https://x.com/casperclawell" },
-            { id: "bakaroni1", name: "Bakaroni", imageUrl: "images/bakaroni1promo.png", platformUrl: "https://www.instagram.com/bakaroni.san/" },
-            { id: "bakaroni2", name: "Bakaroni", imageUrl: "images/bakaroni2promo.png", platformUrl: "https://www.instagram.com/bakaroni.san/" },
-            { id: "turtike", name: "Turtike", imageUrl: "images/turtikepromo.png", platformUrl: "https://x.com/turtike/" },
-            { id: "northboyo", name: "Northboyo", imageUrl: "images/northpromo.png", platformUrl: "https://www.instagram.com/northboyo/" },
-            { id: "racc1", name: "Reckless Racoon Studios", imageUrl: "images/racc1promo.png", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
-            { id: "racc2", name: "Reckless Racoon Studios", imageUrl: "images/racc2promo.png", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
-            { id: "queenmocha", name: "Queen Mocha", imageUrl: "images/mummypromo.png", platformUrl: "https://linktr.ee/QueenMochaBun" }, // Corrected filename
-            { id: "taffy", name: "Taffy", imageUrl: "images/taffypromo.png", platformUrl: "https://t.me/taffysart" },
-            { id: "spoopicus", name: "Spoopicus", imageUrl: "images/maxpromo.png", platformUrl: "https://www.instagram.com/spoopicus/" }, // Corrected filename
-            { id: "lemoncurdll", name: "Lemoncurdll", imageUrl: "images/lemonpromo.png", platformUrl: "https://www.instagram.com/llemoncurdll" },
-            { id: "rainard", name: "Rainard", imageUrl: "images/rainardpromo.png", platformUrl: "#" }, // Placeholder kept
-            { id: "tonfoxsu", name: "Tonfoxsu", imageUrl: "images/tofupromo.png", platformUrl: "https://tonfoxsu.carrd.co" },
-            { id: "cattoforge", name: "The Catto Forge", imageUrl: "images/cattoforgepromo.png", platformUrl: "https://thecattoforge.carrd.co" },
-            { id: "roo", name: "Roo", imageUrl: "images/roopromo.png", platformUrl: "https://featheri-roo.carrd.co/#" },
-            { id: "oomanagarcha", name: "Oomanagarcha", imageUrl: "images/oomapromo.png", platformUrl: "https://linktr.ee/oomanagarcha" },
-            { id: "astralembers", name: "Astral Embers", imageUrl: "images/emberpromo.png", platformUrl: "https://www.instagram.com/_.astral.embers._/" },
-            { id: "jasper", name: "Jasper", imageUrl: "images/jasperpromo.png", platformUrl: "https://bsky.app/profile/jaspersartvault.bsky.social" }
+            { id: "zylith", name: "Zylith", imageUrl: "images/zylithpromo.webp", platformUrl: "https://nogitsune-shrine.carrd.co" },
+            { id: "casper", name: "Casper", imageUrl: "images/casperpromo.webp", platformUrl: "https://x.com/casperclawell" },
+            { id: "bakaroni1", name: "Bakaroni", imageUrl: "images/bakaroni1promo.webp", platformUrl: "https://www.instagram.com/bakaroni.san/" },
+            { id: "bakaroni2", name: "Bakaroni", imageUrl: "images/bakaroni2promo.webp", platformUrl: "https://www.instagram.com/bakaroni.san/" },
+            { id: "turtike", name: "Turtike", imageUrl: "images/turtikepromo.webp", platformUrl: "https://x.com/turtike/" },
+            { id: "northboyo", name: "Northboyo", imageUrl: "images/northpromo.webp", platformUrl: "https://www.instagram.com/northboyo/" },
+            { id: "racc1", name: "Reckless Racoon Studios", imageUrl: "images/racc1promo.webp", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
+            { id: "racc2", name: "Reckless Racoon Studios", imageUrl: "images/racc2promo.webp", platformUrl: "https://www.instagram.com/reckless.raccoon.studios/" },
+            { id: "queenmocha", name: "Queen Mocha", imageUrl: "images/mummypromo.webp", platformUrl: "https://linktr.ee/QueenMochaBun" },
+            { id: "taffy", name: "Taffy", imageUrl: "images/taffypromo.webp", platformUrl: "https://t.me/taffysart" },
+            { id: "spoopicus", name: "Spoopicus", imageUrl: "images/maxpromo.webp", platformUrl: "https://www.instagram.com/spoopicus/" },
+            { id: "lemoncurdll", name: "Lemoncurdll", imageUrl: "images/lemonpromo.webp", platformUrl: "https://www.instagram.com/llemoncurdll" },
+            { id: "rainard", name: "Rainard", imageUrl: "images/rainardpromo.webp", platformUrl: "#" },
+            { id: "tonfoxsu", name: "Tonfoxsu", imageUrl: "images/tofupromo.webp", platformUrl: "https://tonfoxsu.carrd.co" },
+            { id: "cattoforge", name: "The Catto Forge", imageUrl: "images/cattoforgepromo.webp", platformUrl: "https://thecattoforge.carrd.co" },
+            { id: "roo", name: "Roo", imageUrl: "images/roopromo.webp", platformUrl: "https://featheri-roo.carrd.co/#" },
+            { id: "oomanagarcha", name: "Oomanagarcha", imageUrl: "images/oomapromo.webp", platformUrl: "https://linktr.ee/oomanagarcha" },
+            { id: "astralembers", name: "Astral Embers", imageUrl: "images/emberpromo.webp", platformUrl: "https://www.instagram.com/_.astral.embers._/" },
+            { id: "jasper", name: "Jasper", imageUrl: "images/jasperpromo.webp", platformUrl: "https://bsky.app/profile/jaspersartvault.bsky.social" }
         ];
 
         // --- Card Generation Functions ---
         function shuffleArray(array) { for (let i=array.length-1; i>0; i--){ const j=Math.floor(Math.random()*(i+1)); [array[i], array[j]]=[array[j], array[i]];} return array;}
+        // Updated to use WEBP in background image style within JS
         function createCardElementHTML(cardData) { const f=cardData.imageUrl?`style="background-image: url('${cardData.imageUrl}');"`:''; const fC=`<div class="card-face card-front" ${f}></div>`; const bC=`<div class="card-face card-back"></div>`; return `<div class="card-container"><div class="card">${fC}${bC}</div></div>`;}
 
         // --- Populate Scroll Tracks ---
@@ -439,6 +426,7 @@
                 const iRY = (Math.random() - 0.5) * 40;
                 const iS = Math.random() * 0.2 + 0.9;
                 const style = `top:${rT}%; left:${rL}%; animation-duration:${rDu}s; animation-delay:${rDe}s; transform:rotateX(${iRX}deg) rotateY(${iRY}deg) scale(${iS});`;
+                // Uses background image for floaters, updated path needed here too
                 floatingHTML += `
                     <div class="floating-card-container" style="${style}">
                         <div class="card" style="background-image: url('${cardData.imageUrl}'); background-size: cover; background-position: center;"></div>
@@ -453,7 +441,7 @@
         // --- Zoomed Artist View Logic ---
         function showZoomedArtistView(artistData) {
             if (!zoomedArtistView || !artistData) return;
-            zoomedImg.src = artistData.img;
+            zoomedImg.src = artistData.img; // src is already .webp from dataset
             zoomedImg.alt = `Guest artist card by ${artistData.name}`;
             zoomedArtistName.textContent = artistData.name;
             zoomedArtistLink.href = artistData.url || "#";
@@ -463,85 +451,47 @@
                 zoomedArtistInfo.style.display = 'flex';
                 zoomedArtistLink.style.display = 'inline-flex';
                 zoomedArtistLink.setAttribute('aria-label', `Visit ${artistData.name}'s socials`);
-
-                if (artistData.url === "#") {
-                   zoomedArtistLink.style.opacity = 0.7;
-                   zoomedArtistLink.style.cursor = 'default';
-                } else {
-                   zoomedArtistLink.style.opacity = 1;
-                   zoomedArtistLink.style.cursor = 'pointer';
-                }
+                zoomedArtistLink.style.opacity = (artistData.url === "#") ? 0.7 : 1;
+                zoomedArtistLink.style.cursor = (artistData.url === "#") ? 'default' : 'pointer';
             } else {
-                zoomedArtistInfo.style.display = 'flex';
-                zoomedArtistLink.style.display = 'none';
+                zoomedArtistInfo.style.display = 'flex'; // Keep info visible
+                zoomedArtistLink.style.display = 'none'; // Hide link if no URL
             }
-
             document.body.classList.add('zoomed-open');
             zoomedArtistView.classList.add('visible');
         }
         function hideZoomedArtistView() { if (!zoomedArtistView) return; zoomedArtistView.classList.remove('visible'); document.body.classList.remove('zoomed-open');}
 
-        // Event Listener for Guest Card Clicks
+        // Event Listeners
         if (guestArtistGrid) { guestArtistGrid.addEventListener('click', (event) => { const clickedCard = event.target.closest('.guest-card'); if (clickedCard) { const artistData = { id: clickedCard.dataset.artistId, name: clickedCard.dataset.artistName, img: clickedCard.dataset.artistImg, url: clickedCard.dataset.artistUrl, }; showZoomedArtistView(artistData); } }); }
-
-        // Event Listeners for Closing Zoomed View
         if (zoomedArtistView) { zoomedArtistView.addEventListener('click', (event) => { if (event.target === zoomedArtistView || event.target === zoomedCloseButton || event.target.closest('.zoomed-close-button')) { hideZoomedArtistView(); } }); window.addEventListener('keydown', (event) => { if (event.key === 'Escape' && zoomedArtistView.classList.contains('visible')) { hideZoomedArtistView(); } }); }
 
         // --- Snap Scroll & Prompt Visibility Logic ---
-        let isSnapping = false;
-        let snapTimeout;
+        let isSnapping = false, snapTimeout, isHeroPromptHidden = false, isArtistPromptHidden = false, throttleTimer = false;
         const SNAP_DELAY = 800;
-        let isHeroPromptHidden = false;
-        let isArtistPromptHidden = false;
-        let throttleTimer = false;
 
         function updatePromptVisibility() {
              if (!guestArtistsSection || !artistScrollPrompt) return;
-             const currentScroll = window.scrollY;
-             const viewportHeight = window.innerHeight;
-             const guestArtistsTop = guestArtistsSection.offsetTop;
-             const artistPromptHideThreshold = guestArtistsTop - viewportHeight * 0.7;
-             const artistPromptShowThreshold = guestArtistsTop - viewportHeight * 0.8;
-
-             if (!isArtistPromptHidden && currentScroll > artistPromptHideThreshold) {
-                 artistScrollPrompt.classList.add('hidden');
-                 isArtistPromptHidden = true;
-             } else if (isArtistPromptHidden && currentScroll < artistPromptShowThreshold) {
-                 artistScrollPrompt.classList.remove('hidden');
-                 isArtistPromptHidden = false;
-             }
-
+             const currentScroll = window.scrollY, viewportHeight = window.innerHeight, guestArtistsTop = guestArtistsSection.offsetTop;
+             const artistPromptHideThreshold = guestArtistsTop - viewportHeight * 0.7, artistPromptShowThreshold = guestArtistsTop - viewportHeight * 0.8;
              const heroPromptHideThreshold = 50;
-             if (!isHeroPromptHidden && currentScroll > heroPromptHideThreshold) {
-                  scrollPrompt?.classList.add('hidden');
-                  heroSection?.classList.add('prompt-hidden');
-                  isHeroPromptHidden = true;
-             } else if (isHeroPromptHidden && currentScroll <= heroPromptHideThreshold) {
-                  scrollPrompt?.classList.remove('hidden');
-                  heroSection?.classList.remove('prompt-hidden');
-                  isHeroPromptHidden = false;
-             }
+
+             if (!isArtistPromptHidden && currentScroll > artistPromptHideThreshold) { artistScrollPrompt.classList.add('hidden'); isArtistPromptHidden = true; }
+             else if (isArtistPromptHidden && currentScroll < artistPromptShowThreshold) { artistScrollPrompt.classList.remove('hidden'); isArtistPromptHidden = false; }
+
+             if (!isHeroPromptHidden && currentScroll > heroPromptHideThreshold) { scrollPrompt?.classList.add('hidden'); heroSection?.classList.add('prompt-hidden'); isHeroPromptHidden = true; }
+             else if (isHeroPromptHidden && currentScroll <= heroPromptHideThreshold) { scrollPrompt?.classList.remove('hidden'); heroSection?.classList.remove('prompt-hidden'); isHeroPromptHidden = false; }
         }
 
         function handleWheelScroll(event) {
             if (isSnapping) { event.preventDefault(); return; }
+            if (!throttleTimer) { throttleTimer = true; setTimeout(() => { updatePromptVisibility(); throttleTimer = false; }, 100); }
 
-            if (!throttleTimer) {
-                 throttleTimer = true;
-                 setTimeout(() => { updatePromptVisibility(); throttleTimer = false; }, 100);
-             }
-
-            const currentScroll = window.scrollY;
-            const viewportHeight = window.innerHeight;
-            const heroHeight = heroSection.offsetHeight;
-            const purchaseTop = purchaseSection.offsetTop;
-            const guestArtistsTop = guestArtistsSection.offsetTop;
-            const scrollDown = event.deltaY > 0;
-            const scrollUp = event.deltaY < 0;
-            const snapToPurchaseThreshold = heroHeight * 0.5;
-            const snapToGuestThreshold = purchaseTop + viewportHeight * 0.3;
-            const snapUpToPurchaseThreshold = guestArtistsTop - viewportHeight * 0.5;
-            const snapUpToHeroThreshold = purchaseTop - viewportHeight * 0.7;
+            const currentScroll = window.scrollY, viewportHeight = window.innerHeight, heroHeight = heroSection.offsetHeight;
+            const purchaseTop = purchaseSection.offsetTop, guestArtistsTop = guestArtistsSection.offsetTop;
+            const scrollDown = event.deltaY > 0, scrollUp = event.deltaY < 0;
+            const snapToPurchaseThreshold = heroHeight * 0.5, snapToGuestThreshold = purchaseTop + viewportHeight * 0.3;
+            const snapUpToPurchaseThreshold = guestArtistsTop - viewportHeight * 0.5, snapUpToHeroThreshold = purchaseTop - viewportHeight * 0.7;
 
             if (scrollDown) {
                 if (currentScroll < snapToPurchaseThreshold && currentScroll < purchaseTop) {
@@ -575,38 +525,21 @@
         }
 
         // --- Initialization ---
-        let resizeTimer;
-        function handleResize() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                calculateScrollDimensions();
-                // Update floater counts based on new size, passing mobile counts
-                populateBackgroundFloaters(purchaseBgFloater, cardsData, 16, 4);
-                populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3);
-                updatePromptVisibility();
-            }, 250);
-        }
-        let ready = false;
+        let resizeTimer, ready = false;
+        function handleResize() { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { calculateScrollDimensions(); populateBackgroundFloaters(purchaseBgFloater, cardsData, 16, 4); populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3); updatePromptVisibility(); }, 250); }
         function onReady() {
-            if (ready) return;
-            ready = true;
-            populateTracks();
-            calculateScrollDimensions();
-            populateGuestArtists();
-            // Explicitly pass desktop and mobile counts for initial load
+            if (ready) return; ready = true;
+            populateTracks(); calculateScrollDimensions(); populateGuestArtists();
             populateBackgroundFloaters(purchaseBgFloater, cardsData, 16, 4);
-            populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3); // Reduced mobile guest floaters
-
-            updatePromptVisibility(); // Set initial prompt states
-
+            populateBackgroundFloaters(guestArtistBgFloater, guestArtistData, 12, 3);
+            updatePromptVisibility();
             window.addEventListener('resize', handleResize);
             window.addEventListener('wheel', handleWheelScroll, { passive: false });
-
             if (window.scrollY > heroSection.offsetHeight * 0.5) { scrollWrapper?.classList.add('fading-out'); }
         }
 
         window.addEventListener('load', onReady);
-        document.addEventListener('DOMContentLoaded', () => { setTimeout(onReady, 200); }); // Fallback
+        document.addEventListener('DOMContentLoaded', () => { setTimeout(onReady, 200); });
 
     </script>
 
