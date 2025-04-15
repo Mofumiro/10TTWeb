@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
   <url>
     <loc>https://www.10tailtangle.com/</loc>
-    <lastmod>2024-08-01</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2025-04-15</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+
+    <image:image>
+       <image:loc>https://www.10tailtangle.com/images/titlelogo.webp</image:loc>
+       <image:title>10 Tail Tangle Game Logo</image:title>
+    </image:image>
+    <image:image>
+       <image:loc>https://www.10tailtangle.com/images/boxart.webp</image:loc>
+       <image:title>10 Tail Tangle Game Box Art</image:title>
+    </image:image>
+    <image:image>
+       <image:loc>https://www.10tailtangle.com/images/miropromo.webp</image:loc>
+       <image:title>10 Tail Tangle Pre-order Promo Card - Miro Go Fetch</image:title>
+    </image:image>
+     <!-- Optional: Add other very important branding images if desired -->
+     <!-- <image:image>
+       <image:loc>https://www.10tailtangle.com/images/cardback.webp</image:loc>
+       <image:title>10 Tail Tangle Card Back Design</image:title>
+    </image:image> -->
+
   </url>
+
 </urlset>
